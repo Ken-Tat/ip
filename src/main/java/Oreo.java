@@ -74,6 +74,29 @@ public class Oreo {
                             + "Please provide a valid task number.\n"
                             + "____________________________________________");
                 }
+            } else if (userInput.startsWith("unmark ")) {
+                String taskNumberText = userInput.substring("unmark ".length()).trim();
+
+                try {
+                    int taskIndex = Integer.parseInt(taskNumberText) - 1;
+                    if (taskIndex < 0 || taskIndex >= tasks.size()) {
+                        System.out.println("____________________________________________\n"
+                                + "That task number is not in the list.\n"
+                                + "____________________________________________");
+                    } else {
+                        String task = tasks.get(taskIndex);
+                        String incompleteTask = "[ ]" + task.substring(3);
+                        tasks.set(taskIndex, incompleteTask);
+                        System.out.println("____________________________________________\n"
+                                + "OK, I've marked this task as not done yet:\n"
+                                + "  " + incompleteTask + "\n"
+                                + "____________________________________________");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("____________________________________________\n"
+                            + "Please provide a valid task number.\n"
+                            + "____________________________________________");
+                }
             } else {
                 System.out.println("____________________________________________ \n"
                             + "added: " + userInput + " \n"

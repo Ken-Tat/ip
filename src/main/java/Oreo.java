@@ -44,17 +44,41 @@ public class Oreo {
                 if (tasks.isEmpty()) {
                     System.out.println("No tasks in the list.");
                 } else {
+                    System.out.println("Here are the tasks in your list:");
                     for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + ". " + tasks.get(i));
+                        System.out.println((i + 1) + "." + tasks.get(i));
                     }
                 }
 
                 System.out.println("____________________________________________");
+            } else if (userInput.startsWith("mark ")) {
+                String taskNumberText = userInput.substring("mark ".length()).trim();
+
+                try {
+                    int taskIndex = Integer.parseInt(taskNumberText) - 1;
+                    if (taskIndex < 0 || taskIndex >= tasks.size()) {
+                        System.out.println("____________________________________________\n"
+                                + "That task number is not in the list.\n"
+                                + "____________________________________________");
+                    } else {
+                        String task = tasks.get(taskIndex);
+                        String completedTask = "[X]" + task.substring(3);
+                        tasks.set(taskIndex, completedTask);
+                        System.out.println("____________________________________________\n"
+                                + "Nice! I've marked this task as done:\n"
+                                + "  " + completedTask + "\n"
+                                + "____________________________________________");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("____________________________________________\n"
+                            + "Please provide a valid task number.\n"
+                            + "____________________________________________");
+                }
             } else {
                 System.out.println("____________________________________________ \n"
                             + "added: " + userInput + " \n"
                             + "____________________________________________ \n");
-                tasks.add(userInput);
+                tasks.add("[ ] " + userInput);
             }
         }
     }

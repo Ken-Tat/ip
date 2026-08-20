@@ -27,7 +27,7 @@ public class Oreo {
 
         System.out.println(greeting);
 
-        List<String> tasks = new ArrayList<>();
+        List<Task> tasks = new ArrayList<>();
 
         // Reads commands from standard input.
         Scanner scanner = new Scanner(System.in);
@@ -61,12 +61,11 @@ public class Oreo {
                                 + "That task number is not in the list.\n"
                                 + "____________________________________________");
                     } else {
-                        String task = tasks.get(taskIndex);
-                        String completedTask = "[X]" + task.substring(3);
-                        tasks.set(taskIndex, completedTask);
+                        Task task = tasks.get(taskIndex);
+                        task.markAsDone();
                         System.out.println("____________________________________________\n"
                                 + "Nice! I've marked this task as done:\n"
-                                + "  " + completedTask + "\n"
+                                + "  " + task + "\n"
                                 + "____________________________________________");
                     }
                 } catch (NumberFormatException e) {
@@ -84,12 +83,11 @@ public class Oreo {
                                 + "That task number is not in the list.\n"
                                 + "____________________________________________");
                     } else {
-                        String task = tasks.get(taskIndex);
-                        String incompleteTask = "[ ]" + task.substring(3);
-                        tasks.set(taskIndex, incompleteTask);
+                        Task task = tasks.get(taskIndex);
+                        task.markAsNotDone();
                         System.out.println("____________________________________________\n"
                                 + "OK, I've marked this task as not done yet:\n"
-                                + "  " + incompleteTask + "\n"
+                                + "  " + task + "\n"
                                 + "____________________________________________");
                     }
                 } catch (NumberFormatException e) {
@@ -101,7 +99,7 @@ public class Oreo {
                 System.out.println("____________________________________________ \n"
                             + "added: " + userInput + " \n"
                             + "____________________________________________ \n");
-                tasks.add("[ ] " + userInput);
+                tasks.add(new Task(userInput));
             }
         }
     }

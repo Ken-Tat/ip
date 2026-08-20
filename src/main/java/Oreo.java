@@ -11,12 +11,12 @@ public class Oreo {
         String Greeting = "____________________________________________ \n"
                 + banner + "\n"
                 + "Hello! I'm " + NAME + ". \n"
-                + "What can I do for you? \n"
+                + "Let's get started shall we? \n"
                 + "____________________________________________";
         System.out.println(Greeting);
 
         String Goodbye = "____________________________________________ \n"
-                + "Bye. Hope to see you again soon! \n"
+                + "Good work. See you nexttime! \n"
                 + "____________________________________________ \n";
         System.out.println(Goodbye);
     }

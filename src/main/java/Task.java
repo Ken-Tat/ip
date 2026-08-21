@@ -4,7 +4,7 @@
  */
 public abstract class Task {
     protected final String description;
-    private boolean isDone;
+    private TaskStatus status;
 
     /**
      * Creates an incomplete task with the given description.
@@ -13,8 +13,11 @@ public abstract class Task {
      */
     protected Task(String description) {
         this.description = description;
-        this.isDone = false;
+        this.status = TaskStatus.TODO;
     }
+
+    /** Returns the category used to display this task. */
+    public abstract TaskType getTaskType();
 
     /**
      * Returns the icon used to show this task's completion status.
@@ -22,21 +25,21 @@ public abstract class Task {
      * @return {@code X} when the task is done; otherwise a space
      */
     public String getStatusIcon() {
-        return isDone ? "X" : " ";
+        return status.getIcon();
     }
 
     /**
      * Marks this task as complete.
      */
     public void markAsDone() {
-        isDone = true;
+        status = TaskStatus.DONE;
     }
 
     /**
      * Marks this task as incomplete.
      */
     public void markAsNotDone() {
-        isDone = false;
+        status = TaskStatus.TODO;
     }
 
     /**
@@ -47,6 +50,6 @@ public abstract class Task {
      */
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + getTaskType().getMarker() + "][" + getStatusIcon() + "] " + description;
     }
 }

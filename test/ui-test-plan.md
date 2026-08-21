@@ -6,6 +6,7 @@
 - If `sdk` is unavailable in Bash on macOS, run the plan through Zsh instead: `zsh -lic 'sdk use java 25.0.3.fx-zulu && cd /Users/tat/NUS/ip && python3 .codex/skills/test-ui/scripts/run_ui_tests.py'`.
 - Each test command compiles the current Java source before running it, so the test checks the version currently in the working tree.
 - Output comparisons are exact, including spaces and blank lines.
+- The task status, task type, and command classification enums must preserve the existing task markers and user-facing messages.
 
 ## Test cases
 
@@ -145,7 +146,7 @@ ____________________________________________
 
 ### Test: Add and list every task subtype
 
-**Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and are displayed correctly through the shared `Task` list.
+**Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and that the `TaskType` enum preserves their existing display markers through the shared `Task` list.
 
 **Command:**
 ```sh

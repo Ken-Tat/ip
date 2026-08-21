@@ -238,7 +238,7 @@ ____________________________________________
 
 ## 4. Add and list every task subtype
 
-**Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and are displayed correctly through the shared `Task` list.
+**Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and that the `TaskType` enum preserves their existing display markers through the shared `Task` list.
 
 **Command:**
 ```sh

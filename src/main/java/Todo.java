@@ -12,7 +12,12 @@ public class Todo extends Task {
     }
 
     @Override
+    public TaskType getTaskType() {
+        return TaskType.TODO;
+    }
+
+    @Override
     public String toString() {
-        return "[T]" + super.toString();
+        return super.toString();
     }
 }

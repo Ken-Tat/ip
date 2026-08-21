@@ -19,7 +19,12 @@ public class Event extends Task {
     }
 
     @Override
+    public TaskType getTaskType() {
+        return TaskType.EVENT;
+    }
+
+    @Override
     public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
+        return super.toString() + " (from: " + from + " to: " + to + ")";
     }
 }

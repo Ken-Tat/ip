@@ -87,7 +87,7 @@ Hello! I'm Oreo.
 Let's get started shall we? 
 ____________________________________________
 ____________________________________________
-  OOPS!!! The description of a todo cannot be empty.
+  Oh My God! to do what task exactly?.
 ____________________________________________
 ____________________________________________
 Got it. I've added this task:
@@ -95,7 +95,7 @@ Got it. I've added this task:
 Now you have 1 tasks in the list.
 ____________________________________________
 ____________________________________________
-  OOPS!!! I'm sorry, but I don't know what that means :-(
+  Oh My God! I cannot comprehend your English.
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
@@ -121,7 +121,7 @@ Hello! I'm Oreo.
 Let's get started shall we? 
 ____________________________________________
 ____________________________________________
-  OOPS!!! The description of a todo cannot be empty.
+  Oh My God! to do what task exactly?.
 ____________________________________________
 ____________________________________________
 Got it. I've added this task:
@@ -129,7 +129,7 @@ Got it. I've added this task:
 Now you have 1 tasks in the list.
 ____________________________________________
 ____________________________________________
-  OOPS!!! I'm sorry, but I don't know what that means :-(
+  Oh My God! I cannot comprehend your English.
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
@@ -146,7 +146,90 @@ ____________________________________________
 
 **Result:** PASS
 
-## 3. Add and list every task subtype
+## 3. Reject invalid task numbers without changing task state
+
+**Aim:** Confirm that a non-numeric mark command is handled safely and that the existing task remains incomplete.
+
+**Command:**
+```sh
+javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+```
+
+**Console input:**
+```text
+todo buy milk
+mark abc
+list
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] buy milk
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+  Oh My God! That is not a valid task number.
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] buy milk
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] buy milk
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+  Oh My God! That is not a valid task number.
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] buy milk
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+## 4. Add and list every task subtype
 
 **Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and are displayed correctly through the shared `Task` list.
 
@@ -248,4 +331,4 @@ ____________________________________________
 
 **Result:** PASS
 
-All 3 test case(s) passed.
+All 4 test case(s) passed.

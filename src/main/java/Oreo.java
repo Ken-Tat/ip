@@ -33,8 +33,8 @@ public class Oreo {
         Scanner scanner = new Scanner(System.in);
         String userInput = "";
 
-        while (!userInput.equals("bye")) {
-            userInput = scanner.nextLine();
+        while (!userInput.equals("bye") && scanner.hasNextLine()) {
+            userInput = scanner.nextLine().trim();
 
             try {
                 if (userInput.equals("bye")) {
@@ -52,59 +52,27 @@ public class Oreo {
                 }
 
                 System.out.println("____________________________________________");
-                } else if (userInput.startsWith("mark ")) {
-                String taskNumberText = userInput.substring("mark ".length()).trim();
-
-                try {
-                    int taskIndex = Integer.parseInt(taskNumberText) - 1;
-                    if (taskIndex < 0 || taskIndex >= tasks.size()) {
-                        System.out.println("____________________________________________\n"
-                                + "That task number is not in the list.\n"
-                                + "____________________________________________");
-                    } else {
-                        Task task = tasks.get(taskIndex);
-                        task.markAsDone();
-                        System.out.println("____________________________________________\n"
-                                + "Nice! I've marked this task as done:\n"
-                                + "  " + task + "\n"
-                                + "____________________________________________");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("____________________________________________\n"
-                            + "Please provide a valid task number.\n"
-                            + "____________________________________________");
-                }
-                } else if (userInput.startsWith("unmark ")) {
-                String taskNumberText = userInput.substring("unmark ".length()).trim();
-
-                try {
-                    int taskIndex = Integer.parseInt(taskNumberText) - 1;
-                    if (taskIndex < 0 || taskIndex >= tasks.size()) {
-                        System.out.println("____________________________________________\n"
-                                + "That task number is not in the list.\n"
-                                + "____________________________________________");
-                    } else {
-                        Task task = tasks.get(taskIndex);
-                        task.markAsNotDone();
-                        System.out.println("____________________________________________\n"
-                                + "OK, I've marked this task as not done yet:\n"
-                                + "  " + task + "\n"
-                                + "____________________________________________");
-                    }
-                } catch (NumberFormatException e) {
-                    System.out.println("____________________________________________\n"
-                            + "Please provide a valid task number.\n"
-                            + "____________________________________________");
-                }
+                } else if (userInput.equals("mark") || userInput.startsWith("mark ")) {
+                    Task task = getTask(tasks, userInput.substring("mark".length()).trim());
+                    task.markAsDone();
+                    printSuccess("Nice! I've marked this task as done:", task);
+                } else if (userInput.equals("unmark") || userInput.startsWith("unmark ")) {
+                    Task task = getTask(tasks, userInput.substring("unmark".length()).trim());
+                    task.markAsNotDone();
+                    printSuccess("OK, I've marked this task as not done yet:", task);
+                } else if (userInput.isEmpty()) {
+                    throw new OreoException("Please enter a command.");
+                } else if (userInput.equals("deadline") || userInput.startsWith("deadline ")) {
+                    addDeadline(tasks, userInput.length() == "deadline".length()
+                            ? "" : userInput.substring("deadline ".length()).trim());
+                } else if (userInput.equals("event") || userInput.startsWith("event ")) {
+                    addEvent(tasks, userInput.length() == "event".length()
+                            ? "" : userInput.substring("event ".length()).trim());
                 } else if (userInput.equals("todo") || userInput.startsWith("todo ")) {
                 addTodo(tasks, userInput.length() == "todo".length()
                         ? "" : userInput.substring("todo ".length()).trim());
-                } else if (userInput.startsWith("deadline ")) {
-                addDeadline(tasks, userInput.substring("deadline ".length()).trim());
-                } else if (userInput.startsWith("event ")) {
-                addEvent(tasks, userInput.substring("event ".length()).trim());
                 } else {
-                    throw new OreoException("I'm sorry, but I don't know what that means :-(");
+                    throw new OreoException("I cannot comprehend your English.");
                 }
             } catch (OreoException e) {
                 printError(e.getMessage());
@@ -112,10 +80,34 @@ public class Oreo {
         }
     }
 
+    /** Finds a task or throws an input error without changing the task list. */
+    private static Task getTask(List<Task> tasks, String taskNumberText) throws OreoException {
+        if (taskNumberText.isEmpty()) {
+            throw new OreoException("Sooo which task is it?");
+        }
+        try {
+            int taskIndex = Integer.parseInt(taskNumberText) - 1;
+            if (taskIndex < 0 || taskIndex >= tasks.size()) {
+                throw new OreoException("I can't find that task number.");
+            }
+            return tasks.get(taskIndex);
+        } catch (NumberFormatException e) {
+            throw new OreoException("That is not a valid task number.");
+        }
+    }
+
+    /** Prints a formatted confirmation after changing a task's completion state. */
+    private static void printSuccess(String message, Task task) {
+        System.out.println("____________________________________________\n"
+                + message + "\n"
+                + "  " + task + "\n"
+                + "____________________________________________");
+    }
+
     /** Adds a to-do when the user supplied a non-empty description. */
     private static void addTodo(List<Task> tasks, String description) throws OreoException {
         if (description.isEmpty()) {
-            throw new OreoException("The description of a todo cannot be empty.");
+            throw new OreoException("To do what task exactly?.");
         }
         addTask(tasks, new Todo(description));
     }
@@ -164,7 +156,7 @@ public class Oreo {
     /** Prints a consistently formatted message for invalid commands. */
     private static void printError(String message) {
         System.out.println("____________________________________________\n"
-                + "  OOPS!!! " + message + "\n"
+                + "  Oh My God! " + message + "\n"
                 + "____________________________________________");
     }
 }

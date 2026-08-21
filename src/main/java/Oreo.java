@@ -60,6 +60,8 @@ public class Oreo {
                     Task task = getTask(tasks, userInput.substring("unmark".length()).trim());
                     task.markAsNotDone();
                     printSuccess("OK, I've marked this task as not done yet:", task);
+                } else if (userInput.equals("delete") || userInput.startsWith("delete ")) {
+                    deleteTask(tasks, userInput.substring("delete".length()).trim());
                 } else if (userInput.isEmpty()) {
                     throw new OreoException("Please enter a command.");
                 } else if (userInput.equals("deadline") || userInput.startsWith("deadline ")) {
@@ -101,6 +103,17 @@ public class Oreo {
         System.out.println("____________________________________________\n"
                 + message + "\n"
                 + "  " + task + "\n"
+                + "____________________________________________");
+    }
+
+    /** Removes the selected task and reports the remaining number of tasks. */
+    private static void deleteTask(List<Task> tasks, String taskNumberText) throws OreoException {
+        Task task = getTask(tasks, taskNumberText);
+        tasks.remove(task);
+        System.out.println("____________________________________________\n"
+                + "Noted. I've removed this task:\n"
+                + "  " + task + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.\n"
                 + "____________________________________________");
     }
 

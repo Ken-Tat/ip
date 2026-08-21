@@ -87,7 +87,7 @@ Hello! I'm Oreo.
 Let's get started shall we? 
 ____________________________________________
 ____________________________________________
-  Oh My God! to do what task exactly?.
+  Oh My God! To do what task exactly?.
 ____________________________________________
 ____________________________________________
 Got it. I've added this task:
@@ -121,7 +121,7 @@ Hello! I'm Oreo.
 Let's get started shall we? 
 ____________________________________________
 ____________________________________________
-  Oh My God! to do what task exactly?.
+  Oh My God! To do what task exactly?.
 ____________________________________________
 ____________________________________________
 Got it. I've added this task:
@@ -148,7 +148,7 @@ ____________________________________________
 
 ## 3. Reject invalid task numbers without changing task state
 
-**Aim:** Confirm that a non-numeric mark command is handled safely and that the existing task remains incomplete.
+**Aim:** Confirm that invalid task numbers, including an out-of-range delete command, are handled safely and leave the task list unchanged.
 
 **Command:**
 ```sh
@@ -159,6 +159,7 @@ javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui
 ```text
 todo buy milk
 mark abc
+delete 2
 list
 bye
 ```
@@ -182,6 +183,9 @@ Now you have 1 tasks in the list.
 ____________________________________________
 ____________________________________________
   Oh My God! That is not a valid task number.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
@@ -213,6 +217,9 @@ Now you have 1 tasks in the list.
 ____________________________________________
 ____________________________________________
   Oh My God! That is not a valid task number.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
@@ -331,4 +338,242 @@ ____________________________________________
 
 **Result:** PASS
 
-All 4 test case(s) passed.
+## 5. Mark and unmark a task
+
+**Aim:** Confirm that marking a task as done and then unmarking it updates its status without changing the task description or list position.
+
+**Command:**
+```sh
+javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+```
+
+**Console input:**
+```text
+todo buy milk
+mark 1
+unmark 1
+list
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] buy milk
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Nice! I've marked this task as done:
+  [T][X] buy milk
+____________________________________________
+____________________________________________
+OK, I've marked this task as not done yet:
+  [T][ ] buy milk
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] buy milk
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] buy milk
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Nice! I've marked this task as done:
+  [T][X] buy milk
+____________________________________________
+____________________________________________
+OK, I've marked this task as not done yet:
+  [T][ ] buy milk
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] buy milk
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+## 6. Delete tasks and reject invalid delete numbers
+
+**Aim:** Confirm that deletion removes the selected task and re-numbers the list, while missing, zero, out-of-range, and empty-list delete commands leave the list unchanged.
+
+**Command:**
+```sh
+javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+```
+
+**Console input:**
+```text
+todo read book
+todo return book
+delete 1
+list
+delete
+delete 0
+delete 2
+delete 1
+list
+delete 1
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] return book
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] return book
+____________________________________________
+____________________________________________
+  Oh My God! Sooo which task is it?
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] return book
+Now you have 0 tasks in the list.
+____________________________________________
+____________________________________________
+No tasks in the list.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] return book
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] return book
+____________________________________________
+____________________________________________
+  Oh My God! Sooo which task is it?
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] return book
+Now you have 0 tasks in the list.
+____________________________________________
+____________________________________________
+No tasks in the list.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+All 6 test case(s) passed.

@@ -36,9 +36,10 @@ public class Oreo {
         while (!userInput.equals("bye")) {
             userInput = scanner.nextLine();
 
-            if (userInput.equals("bye")) {
-                System.out.println(goodbye);
-            } else if (userInput.equals("list")) {
+            try {
+                if (userInput.equals("bye")) {
+                    System.out.println(goodbye);
+                } else if (userInput.equals("list")) {
                 System.out.println("____________________________________________");
 
                 if (tasks.isEmpty()) {
@@ -51,7 +52,7 @@ public class Oreo {
                 }
 
                 System.out.println("____________________________________________");
-            } else if (userInput.startsWith("mark ")) {
+                } else if (userInput.startsWith("mark ")) {
                 String taskNumberText = userInput.substring("mark ".length()).trim();
 
                 try {
@@ -73,7 +74,7 @@ public class Oreo {
                             + "Please provide a valid task number.\n"
                             + "____________________________________________");
                 }
-            } else if (userInput.startsWith("unmark ")) {
+                } else if (userInput.startsWith("unmark ")) {
                 String taskNumberText = userInput.substring("unmark ".length()).trim();
 
                 try {
@@ -95,58 +96,57 @@ public class Oreo {
                             + "Please provide a valid task number.\n"
                             + "____________________________________________");
                 }
-            } else if (userInput.startsWith("todo ")) {
-                addTodo(tasks, userInput.substring("todo ".length()).trim());
-            } else if (userInput.startsWith("deadline ")) {
+                } else if (userInput.equals("todo") || userInput.startsWith("todo ")) {
+                addTodo(tasks, userInput.length() == "todo".length()
+                        ? "" : userInput.substring("todo ".length()).trim());
+                } else if (userInput.startsWith("deadline ")) {
                 addDeadline(tasks, userInput.substring("deadline ".length()).trim());
-            } else if (userInput.startsWith("event ")) {
+                } else if (userInput.startsWith("event ")) {
                 addEvent(tasks, userInput.substring("event ".length()).trim());
-            } else {
-                printError("I don't understand that command.");
+                } else {
+                    throw new OreoException("I'm sorry, but I don't know what that means :-(");
+                }
+            } catch (OreoException e) {
+                printError(e.getMessage());
             }
         }
     }
 
     /** Adds a to-do when the user supplied a non-empty description. */
-    private static void addTodo(List<Task> tasks, String description) {
+    private static void addTodo(List<Task> tasks, String description) throws OreoException {
         if (description.isEmpty()) {
-            printError("Please provide a description for the to-do.");
-            return;
+            throw new OreoException("The description of a todo cannot be empty.");
         }
         addTask(tasks, new Todo(description));
     }
 
     /** Parses and adds a deadline in the form {@code description /by date}. */
-    private static void addDeadline(List<Task> tasks, String command) {
+    private static void addDeadline(List<Task> tasks, String command) throws OreoException {
         int byMarker = command.indexOf(" /by ");
         if (byMarker <= 0 || byMarker + " /by ".length() >= command.length()) {
-            printError("Use: deadline DESCRIPTION /by DATE");
-            return;
+            throw new OreoException("Use: deadline DESCRIPTION /by DATE");
         }
         String description = command.substring(0, byMarker).trim();
         String by = command.substring(byMarker + " /by ".length()).trim();
         if (description.isEmpty() || by.isEmpty()) {
-            printError("Use: deadline DESCRIPTION /by DATE");
-            return;
+            throw new OreoException("Use: deadline DESCRIPTION /by DATE");
         }
         addTask(tasks, new Deadline(description, by));
     }
 
     /** Parses and adds an event in the form {@code description /from start /to end}. */
-    private static void addEvent(List<Task> tasks, String command) {
+    private static void addEvent(List<Task> tasks, String command) throws OreoException {
         int fromMarker = command.indexOf(" /from ");
         int toMarker = command.indexOf(" /to ");
         if (fromMarker <= 0 || toMarker <= fromMarker + " /from ".length()
                 || toMarker + " /to ".length() >= command.length()) {
-            printError("Use: event DESCRIPTION /from START /to END");
-            return;
+            throw new OreoException("Use: event DESCRIPTION /from START /to END");
         }
         String description = command.substring(0, fromMarker).trim();
         String from = command.substring(fromMarker + " /from ".length(), toMarker).trim();
         String to = command.substring(toMarker + " /to ".length()).trim();
         if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
-            printError("Use: event DESCRIPTION /from START /to END");
-            return;
+            throw new OreoException("Use: event DESCRIPTION /from START /to END");
         }
         addTask(tasks, new Event(description, from, to));
     }
@@ -164,7 +164,7 @@ public class Oreo {
     /** Prints a consistently formatted message for invalid commands. */
     private static void printError(String message) {
         System.out.println("____________________________________________\n"
-                + message + "\n"
+                + "  OOPS!!! " + message + "\n"
                 + "____________________________________________");
     }
 }

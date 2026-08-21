@@ -1,7 +1,5 @@
 # UI test session
 
-**Tested commit:** `e9cfae9` (latest commit when this session was run)
-
 ## 1. Greeting and graceful exit
 
 **Aim:** Confirm that Oreo displays its greeting and exits with its goodbye message when the user enters `bye`.
@@ -58,7 +56,97 @@ ____________________________________________
 
 **Result:** PASS
 
-## 2. Add and list every task subtype
+## 2. Recover from invalid commands without changing state
+
+**Aim:** Confirm that an empty to-do description and an unknown command produce exception-based error messages, while valid tasks remain intact.
+
+**Command:**
+```sh
+javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+```
+
+**Console input:**
+```text
+todo
+todo buy milk
+blah
+list
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+  OOPS!!! The description of a todo cannot be empty.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] buy milk
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+  OOPS!!! I'm sorry, but I don't know what that means :-(
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] buy milk
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+  OOPS!!! The description of a todo cannot be empty.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] buy milk
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+  OOPS!!! I'm sorry, but I don't know what that means :-(
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] buy milk
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+## 3. Add and list every task subtype
 
 **Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and are displayed correctly through the shared `Task` list.
 
@@ -160,4 +248,4 @@ ____________________________________________
 
 **Result:** PASS
 
-All 2 test case(s) passed.
+All 3 test case(s) passed.

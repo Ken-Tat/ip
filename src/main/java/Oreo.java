@@ -113,7 +113,7 @@ public class Oreo {
             printError("Please provide a description for the to-do.");
             return;
         }
-        addTask(tasks, Task.todo(description));
+        addTask(tasks, new Todo(description));
     }
 
     /** Parses and adds a deadline in the form {@code description /by date}. */
@@ -129,7 +129,7 @@ public class Oreo {
             printError("Use: deadline DESCRIPTION /by DATE");
             return;
         }
-        addTask(tasks, Task.deadline(description, by));
+        addTask(tasks, new Deadline(description, by));
     }
 
     /** Parses and adds an event in the form {@code description /from start /to end}. */
@@ -148,7 +148,7 @@ public class Oreo {
             printError("Use: event DESCRIPTION /from START /to END");
             return;
         }
-        addTask(tasks, Task.event(description, from, to));
+        addTask(tasks, new Event(description, from, to));
     }
 
     /** Prints the confirmation after adding a task. */

@@ -95,12 +95,76 @@ public class Oreo {
                             + "Please provide a valid task number.\n"
                             + "____________________________________________");
                 }
+            } else if (userInput.startsWith("todo ")) {
+                addTodo(tasks, userInput.substring("todo ".length()).trim());
+            } else if (userInput.startsWith("deadline ")) {
+                addDeadline(tasks, userInput.substring("deadline ".length()).trim());
+            } else if (userInput.startsWith("event ")) {
+                addEvent(tasks, userInput.substring("event ".length()).trim());
             } else {
-                System.out.println("____________________________________________ \n"
-                            + "added: " + userInput + " \n"
-                            + "____________________________________________ \n");
-                tasks.add(new Task(userInput));
+                printError("I don't understand that command.");
             }
         }
+    }
+
+    /** Adds a to-do when the user supplied a non-empty description. */
+    private static void addTodo(List<Task> tasks, String description) {
+        if (description.isEmpty()) {
+            printError("Please provide a description for the to-do.");
+            return;
+        }
+        addTask(tasks, Task.todo(description));
+    }
+
+    /** Parses and adds a deadline in the form {@code description /by date}. */
+    private static void addDeadline(List<Task> tasks, String command) {
+        int byMarker = command.indexOf(" /by ");
+        if (byMarker <= 0 || byMarker + " /by ".length() >= command.length()) {
+            printError("Use: deadline DESCRIPTION /by DATE");
+            return;
+        }
+        String description = command.substring(0, byMarker).trim();
+        String by = command.substring(byMarker + " /by ".length()).trim();
+        if (description.isEmpty() || by.isEmpty()) {
+            printError("Use: deadline DESCRIPTION /by DATE");
+            return;
+        }
+        addTask(tasks, Task.deadline(description, by));
+    }
+
+    /** Parses and adds an event in the form {@code description /from start /to end}. */
+    private static void addEvent(List<Task> tasks, String command) {
+        int fromMarker = command.indexOf(" /from ");
+        int toMarker = command.indexOf(" /to ");
+        if (fromMarker <= 0 || toMarker <= fromMarker + " /from ".length()
+                || toMarker + " /to ".length() >= command.length()) {
+            printError("Use: event DESCRIPTION /from START /to END");
+            return;
+        }
+        String description = command.substring(0, fromMarker).trim();
+        String from = command.substring(fromMarker + " /from ".length(), toMarker).trim();
+        String to = command.substring(toMarker + " /to ".length()).trim();
+        if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
+            printError("Use: event DESCRIPTION /from START /to END");
+            return;
+        }
+        addTask(tasks, Task.event(description, from, to));
+    }
+
+    /** Prints the confirmation after adding a task. */
+    private static void addTask(List<Task> tasks, Task task) {
+        tasks.add(task);
+        System.out.println("____________________________________________\n"
+                + "Got it. I've added this task:\n"
+                + task + "\n"
+                + "Now you have " + tasks.size() + " tasks in the list.\n"
+                + "____________________________________________");
+    }
+
+    /** Prints a consistently formatted message for invalid commands. */
+    private static void printError(String message) {
+        System.out.println("____________________________________________\n"
+                + message + "\n"
+                + "____________________________________________");
     }
 }

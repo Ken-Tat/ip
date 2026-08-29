@@ -34,7 +34,7 @@ public class Oreo {
                 + "Good work. See you next time! \n"
                 + "____________________________________________ \n";
 
-        List<Task> tasks = loadTasks();
+        TaskList tasks = new TaskList(loadTasks());
         System.out.println(greeting);
 
         // Reads commands from standard input.
@@ -97,7 +97,7 @@ public class Oreo {
     }
 
     /** Finds a task or throws an input error without changing the task list. */
-    private static Task getTask(List<Task> tasks, String taskNumberText) throws OreoException {
+    private static Task getTask(TaskList tasks, String taskNumberText) throws OreoException {
         if (taskNumberText.isEmpty()) {
             throw new OreoException("Sooo which task is it?");
         }
@@ -121,7 +121,7 @@ public class Oreo {
     }
 
     /** Removes the selected task and reports the remaining number of tasks. */
-    private static void deleteTask(List<Task> tasks, String taskNumberText) throws OreoException {
+    private static void deleteTask(TaskList tasks, String taskNumberText) throws OreoException {
         Task task = getTask(tasks, taskNumberText);
         tasks.remove(task);
         saveTasks(tasks);
@@ -133,7 +133,7 @@ public class Oreo {
     }
 
     /** Adds a to-do when the user supplied a non-empty description. */
-    private static void addTodo(List<Task> tasks, String description) throws OreoException {
+    private static void addTodo(TaskList tasks, String description) throws OreoException {
         if (description.isEmpty()) {
             throw new OreoException("To do what task exactly?.");
         }
@@ -141,7 +141,7 @@ public class Oreo {
     }
 
     /** Parses and adds a deadline in the form {@code description /by date}. */
-    private static void addDeadline(List<Task> tasks, String command) throws OreoException {
+    private static void addDeadline(TaskList tasks, String command) throws OreoException {
         int byMarker = command.indexOf(" /by ");
         if (byMarker <= 0 || byMarker + " /by ".length() >= command.length()) {
             throw new OreoException("Use: deadline DESCRIPTION /by DATE");
@@ -159,7 +159,7 @@ public class Oreo {
     }
 
     /** Parses and adds an event in the form {@code description /from start /to end}. */
-    private static void addEvent(List<Task> tasks, String command) throws OreoException {
+    private static void addEvent(TaskList tasks, String command) throws OreoException {
         int fromMarker = command.indexOf(" /from ");
         int toMarker = command.indexOf(" /to ");
         if (fromMarker <= 0 || toMarker <= fromMarker + " /from ".length()
@@ -180,7 +180,7 @@ public class Oreo {
     }
 
     /** Prints the confirmation after adding a task. */
-    private static void addTask(List<Task> tasks, Task task) {
+    private static void addTask(TaskList tasks, Task task) {
         tasks.add(task);
         saveTasks(tasks);
         System.out.println("____________________________________________\n"
@@ -191,7 +191,7 @@ public class Oreo {
     }
 
     /** Lists parsed deadlines and events occurring on an ISO date. */
-    private static void listTasksOnDate(List<Task> tasks, String dateText) throws OreoException {
+    private static void listTasksOnDate(TaskList tasks, String dateText) throws OreoException {
         if (dateText.isEmpty()) {
             throw new OreoException("Use: on YYYY-MM-DD");
         }
@@ -223,7 +223,7 @@ public class Oreo {
     }
 
     /** Saves the current task list without leaving a partially written file behind. */
-    private static void saveTasks(List<Task> tasks) {
+    private static void saveTasks(TaskList tasks) {
         Path parent = TASK_FILE.getParent();
         Path temporaryFile = null;
         try {

@@ -93,17 +93,9 @@ public class Oreo {
 
     /** Parses and adds a deadline in the form {@code description /by date}. */
     private static void addDeadline(TaskList tasks, String command) throws OreoException {
-        int byMarker = command.indexOf(" /by ");
-        if (byMarker <= 0 || byMarker + " /by ".length() >= command.length()) {
-            throw new OreoException("Use: deadline DESCRIPTION /by DATE");
-        }
-        String description = command.substring(0, byMarker).trim();
-        String by = command.substring(byMarker + " /by ".length()).trim();
-        if (description.isEmpty() || by.isEmpty()) {
-            throw new OreoException("Use: deadline DESCRIPTION /by DATE");
-        }
+        String[] parts = PARSER.deadlineParts(command);
         try {
-            addTask(tasks, new Deadline(description, by));
+            addTask(tasks, new Deadline(parts[0], parts[1]));
         } catch (IllegalArgumentException e) {
             throw new OreoException(e.getMessage());
         }
@@ -111,20 +103,9 @@ public class Oreo {
 
     /** Parses and adds an event in the form {@code description /from start /to end}. */
     private static void addEvent(TaskList tasks, String command) throws OreoException {
-        int fromMarker = command.indexOf(" /from ");
-        int toMarker = command.indexOf(" /to ");
-        if (fromMarker <= 0 || toMarker <= fromMarker + " /from ".length()
-                || toMarker + " /to ".length() >= command.length()) {
-            throw new OreoException("Use: event DESCRIPTION /from START /to END");
-        }
-        String description = command.substring(0, fromMarker).trim();
-        String from = command.substring(fromMarker + " /from ".length(), toMarker).trim();
-        String to = command.substring(toMarker + " /to ".length()).trim();
-        if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
-            throw new OreoException("Use: event DESCRIPTION /from START /to END");
-        }
+        String[] parts = PARSER.eventParts(command);
         try {
-            addTask(tasks, new Event(description, from, to));
+            addTask(tasks, new Event(parts[0], parts[1], parts[2]));
         } catch (IllegalArgumentException e) {
             throw new OreoException(e.getMessage());
         }

@@ -18,14 +18,17 @@ public class Oreo {
         // Reads commands from standard input.
         Scanner scanner = new Scanner(System.in);
         String userInput = "";
+        boolean isExit = false;
 
-        while (!userInput.equals("bye") && scanner.hasNextLine()) {
+        while (!isExit && scanner.hasNextLine()) {
             userInput = scanner.nextLine().trim();
 
             try {
                 CommandType commandType = PARSER.parse(userInput);
                 if (commandType == CommandType.BYE) {
-                    UI.showGoodbye();
+                    Command command = new ExitCommand();
+                    command.execute(tasks, UI, STORAGE);
+                    isExit = command.isExit();
                 } else if (commandType == CommandType.LIST) {
                 UI.showTaskList(tasks);
                 } else if (commandType == CommandType.MARK) {

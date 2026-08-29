@@ -43,6 +43,33 @@ javac -d /tmp/oreo-classes $(find src/main/java -name '*.java')
 java -cp /tmp/oreo-classes oreo.Oreo
 ```
 
+## Create and run an executable fat JAR
+
+This project uses the Shadow Gradle plugin to package the application and its
+dependencies into one executable JAR file.
+
+1. Select Java 25:
+
+   ```sh
+   sdk use java 25.0.3.fx-zulu
+   ```
+
+2. Build the fat JAR from the project root:
+
+   ```sh
+   ./gradlew shadowJar
+   ```
+
+3. Locate the generated file at `build/libs/oreo-all.jar` and run it with:
+
+   ```sh
+   java -jar build/libs/oreo-all.jar
+   ```
+
+The JAR is executable because its manifest names `oreo.Oreo` as the main
+class. On Windows, use `gradlew.bat shadowJar` instead of `./gradlew
+shadowJar`.
+
 ## Acknowledgement of AI use 
 
 ### Week 2 iP

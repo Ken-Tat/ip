@@ -48,7 +48,12 @@ jar {
 }
 
 shadowJar {
-    archiveFileName = 'duke.jar'
+    archiveFileName = 'oreo-all.jar'
+
+    // Keep the executable entry point in the fat JAR's manifest.
+    manifest {
+        attributes 'Main-Class': 'oreo.Oreo'
+    }
 }
 
 run {

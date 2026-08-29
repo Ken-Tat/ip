@@ -1,6 +1,5 @@
 import java.util.Scanner;
 import java.nio.file.Path;
-import java.time.LocalDate;
 
 /**
  * A simple command-line chatbot that stores and displays user-entered tasks.
@@ -53,7 +52,8 @@ public class Oreo {
                     Command command = new TodoCommand(PARSER.argument(userInput, "todo"));
                     command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.ON_DATE) {
-                    listTasksOnDate(tasks, PARSER.argument(userInput, "on"));
+                    Command command = new OnDateCommand(PARSER.argument(userInput, "on"));
+                    command.execute(tasks, UI, STORAGE);
                 } else {
                     throw new OreoException("I cannot comprehend your English.");
                 }
@@ -61,20 +61,6 @@ public class Oreo {
                 UI.showError(e.getMessage());
             }
         }
-    }
-
-    /** Lists parsed deadlines and events occurring on an ISO date. */
-    private static void listTasksOnDate(TaskList tasks, String dateText) throws OreoException {
-        if (dateText.isEmpty()) {
-            throw new OreoException("Use: on YYYY-MM-DD");
-        }
-        final LocalDate date;
-        try {
-            date = DateTimeParser.parseDate(dateText);
-        } catch (IllegalArgumentException e) {
-            throw new OreoException(e.getMessage());
-        }
-        UI.showTasksOnDate(tasks, date);
     }
 
 }

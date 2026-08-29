@@ -41,7 +41,8 @@ public class Oreo {
                     Command command = new DeleteCommand(PARSER.argument(userInput, "delete"));
                     command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.EMPTY) {
-                    throw new OreoException("Please enter a command.");
+                    Command command = new EmptyCommand();
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.DEADLINE) {
                     Command command = new DeadlineCommand(PARSER.argument(userInput, "deadline"));
                     command.execute(tasks, UI, STORAGE);
@@ -55,7 +56,8 @@ public class Oreo {
                     Command command = new OnDateCommand(PARSER.argument(userInput, "on"));
                     command.execute(tasks, UI, STORAGE);
                 } else {
-                    throw new OreoException("I cannot comprehend your English.");
+                    Command command = new UnknownCommand();
+                    command.execute(tasks, UI, STORAGE);
                 }
             } catch (OreoException e) {
                 UI.showError(e.getMessage());

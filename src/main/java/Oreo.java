@@ -160,18 +160,7 @@ public class Oreo {
         } catch (IllegalArgumentException e) {
             throw new OreoException(e.getMessage());
         }
-        System.out.println("____________________________________________");
-        System.out.println("Tasks occurring on " + date.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
-        int count = 0;
-        for (Task task : tasks) {
-            boolean occurs = task instanceof Deadline deadline && deadline.occursOn(date)
-                    || task instanceof Event event && event.occursOn(date);
-            if (occurs) {
-                System.out.println((++count) + "." + task);
-            }
-        }
-        if (count == 0) System.out.println("No deadlines or events on this date.");
-        System.out.println("____________________________________________");
+        UI.showTasksOnDate(tasks, date);
     }
 
     /** Saves the current task list without leaving a partially written file behind. */

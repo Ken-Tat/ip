@@ -1,3 +1,6 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 /** Handles messages that greet the user and close the application. */
 public class Ui {
     private static final String NAME = "Oreo";
@@ -63,5 +66,22 @@ public class Ui {
                 + "Noted. I've removed this task:\n  " + task + "\n"
                 + "Now you have " + taskCount + " tasks in the list.\n"
                 + "____________________________________________");
+    }
+
+    /** Displays deadlines and events occurring on the supplied date. */
+    public void showTasksOnDate(TaskList tasks, LocalDate date) {
+        System.out.println("____________________________________________");
+        System.out.println("Tasks occurring on "
+                + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+        int count = 0;
+        for (Task task : tasks) {
+            boolean occurs = task instanceof Deadline deadline && deadline.occursOn(date)
+                    || task instanceof Event event && event.occursOn(date);
+            if (occurs) {
+                System.out.println((++count) + "." + task);
+            }
+        }
+        if (count == 0) System.out.println("No deadlines or events on this date.");
+        System.out.println("____________________________________________");
     }
 }

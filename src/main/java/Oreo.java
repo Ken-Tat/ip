@@ -51,12 +51,12 @@ public class Oreo {
                     Task task = getTask(tasks, userInput.substring("mark".length()).trim());
                     task.markAsDone();
                     STORAGE.save(tasks);
-                    printSuccess("Nice! I've marked this task as done:", task);
+                    UI.showSuccess("Nice! I've marked this task as done:", task);
                 } else if (commandType == CommandType.UNMARK) {
                     Task task = getTask(tasks, userInput.substring("unmark".length()).trim());
                     task.markAsNotDone();
                     STORAGE.save(tasks);
-                    printSuccess("OK, I've marked this task as not done yet:", task);
+                    UI.showSuccess("OK, I've marked this task as not done yet:", task);
                 } else if (commandType == CommandType.DELETE) {
                     deleteTask(tasks, userInput.substring("delete".length()).trim());
                 } else if (commandType == CommandType.EMPTY) {
@@ -77,7 +77,7 @@ public class Oreo {
                     throw new OreoException("I cannot comprehend your English.");
                 }
             } catch (OreoException e) {
-                printError(e.getMessage());
+                UI.showError(e.getMessage());
             }
         }
     }
@@ -96,14 +96,6 @@ public class Oreo {
         } catch (NumberFormatException e) {
             throw new OreoException("That is not a valid task number.");
         }
-    }
-
-    /** Prints a formatted confirmation after changing a task's completion state. */
-    private static void printSuccess(String message, Task task) {
-        System.out.println("____________________________________________\n"
-                + message + "\n"
-                + "  " + task + "\n"
-                + "____________________________________________");
     }
 
     /** Removes the selected task and reports the remaining number of tasks. */
@@ -199,13 +191,6 @@ public class Oreo {
         }
         if (count == 0) System.out.println("No deadlines or events on this date.");
         System.out.println("____________________________________________");
-    }
-
-    /** Prints a consistently formatted message for invalid commands. */
-    private static void printError(String message) {
-        System.out.println("____________________________________________\n"
-                + "  Oh My God! " + message + "\n"
-                + "____________________________________________");
     }
 
     /** Saves the current task list without leaving a partially written file behind. */

@@ -22,4 +22,16 @@ public class Ui {
                 + "Good work. See you next time! \n"
                 + "____________________________________________ \n");
     }
+
+    /** Displays a confirmation for a task status change. */
+    public void showSuccess(String message, Task task) {
+        System.out.println("____________________________________________\n" + message + "\n"
+                + "  " + task + "\n____________________________________________");
+    }
+
+    /** Displays a consistently formatted command error. */
+    public void showError(String message) {
+        System.out.println("____________________________________________\n"
+                + "  Oh My God! " + message + "\n____________________________________________");
+    }
 }

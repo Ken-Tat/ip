@@ -1,8 +1,8 @@
 /** Command that marks one task as not done. */
 public class UnmarkCommand extends TaskStatusCommand {
     /** Creates an unmark command for the supplied one-based task number. */
-    public UnmarkCommand(String taskNumber) {
-        super(taskNumber);
+    public UnmarkCommand(String taskNumber, Parser parser) {
+        super(taskNumber, parser);
     }
 
     @Override

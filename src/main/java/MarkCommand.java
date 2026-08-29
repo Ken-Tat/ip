@@ -1,8 +1,8 @@
 /** Command that marks one task as done. */
 public class MarkCommand extends TaskStatusCommand {
     /** Creates a mark command for the supplied one-based task number. */
-    public MarkCommand(String taskNumber) {
-        super(taskNumber);
+    public MarkCommand(String taskNumber, Parser parser) {
+        super(taskNumber, parser);
     }
 
     @Override

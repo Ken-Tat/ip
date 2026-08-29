@@ -3,7 +3,8 @@ public class DeleteCommand extends Command {
     private final String taskNumber;
 
     /** Creates a delete command for the supplied one-based task number. */
-    public DeleteCommand(String taskNumber) {
+    public DeleteCommand(String taskNumber, Parser parser) {
+        super(parser);
         this.taskNumber = taskNumber;
     }
 

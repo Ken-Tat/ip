@@ -5,7 +5,8 @@ public class OnDateCommand extends Command {
     private final String dateText;
 
     /** Creates a date-query command. */
-    public OnDateCommand(String dateText) {
+    public OnDateCommand(String dateText, Parser parser) {
+        super(parser);
         this.dateText = dateText;
     }
 

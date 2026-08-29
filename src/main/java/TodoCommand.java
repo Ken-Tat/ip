@@ -3,7 +3,8 @@ public class TodoCommand extends AddTaskCommand {
     private final String description;
 
     /** Creates a to-do command. */
-    public TodoCommand(String description) {
+    public TodoCommand(String description, Parser parser) {
+        super(parser);
         this.description = description;
     }
 

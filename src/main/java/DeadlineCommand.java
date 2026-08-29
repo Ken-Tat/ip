@@ -3,7 +3,8 @@ public class DeadlineCommand extends AddTaskCommand {
     private final String command;
 
     /** Creates a deadline command. */
-    public DeadlineCommand(String command) {
+    public DeadlineCommand(String command, Parser parser) {
+        super(parser);
         this.command = command;
     }
 

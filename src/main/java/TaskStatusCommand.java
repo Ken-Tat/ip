@@ -3,7 +3,8 @@ public abstract class TaskStatusCommand extends Command {
     private final String taskNumber;
 
     /** Creates a status command for the supplied one-based task number. */
-    protected TaskStatusCommand(String taskNumber) {
+    protected TaskStatusCommand(String taskNumber, Parser parser) {
+        super(parser);
         this.taskNumber = taskNumber;
     }
 

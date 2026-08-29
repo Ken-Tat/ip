@@ -3,7 +3,8 @@ public class EventCommand extends AddTaskCommand {
     private final String command;
 
     /** Creates an event command. */
-    public EventCommand(String command) {
+    public EventCommand(String command, Parser parser) {
+        super(parser);
         this.command = command;
     }
 

@@ -1,5 +1,7 @@
 /** Command that displays the current task list. */
 public class ListCommand extends Command {
+    public ListCommand(Parser parser) { super(parser); }
+
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         ui.showTaskList(tasks);

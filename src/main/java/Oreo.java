@@ -85,10 +85,7 @@ public class Oreo {
 
     /** Adds a to-do when the user supplied a non-empty description. */
     private static void addTodo(TaskList tasks, String description) throws OreoException {
-        if (description.isEmpty()) {
-            throw new OreoException("To do what task exactly?.");
-        }
-        addTask(tasks, new Todo(description));
+        addTask(tasks, new Todo(PARSER.todoDescription(description)));
     }
 
     /** Parses and adds a deadline in the form {@code description /by date}. */

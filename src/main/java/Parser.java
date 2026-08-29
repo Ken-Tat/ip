@@ -42,4 +42,12 @@ public class Parser {
         }
         return new String[] {description, from, to};
     }
+
+    /** Validates and returns a to-do description. */
+    public String todoDescription(String command) throws OreoException {
+        if (command.isEmpty()) {
+            throw new OreoException("To do what task exactly?.");
+        }
+        return command;
+    }
 }

@@ -9,6 +9,6 @@ public class TodoCommand extends AddTaskCommand {
 
     @Override
     protected Task createTask() throws OreoException {
-        return new Todo(new Parser().todoDescription(description));
+        return new Todo(parser.todoDescription(description));
     }
 }

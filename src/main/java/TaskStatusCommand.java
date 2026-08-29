@@ -15,7 +15,6 @@ public abstract class TaskStatusCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException {
-        Parser parser = new Parser();
         Task task = tasks.get(parser.taskIndex(taskNumber, tasks.size()));
         update(task);
         storage.save(tasks);

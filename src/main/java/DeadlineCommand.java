@@ -9,7 +9,7 @@ public class DeadlineCommand extends AddTaskCommand {
 
     @Override
     protected Task createTask() throws OreoException {
-        String[] parts = new Parser().deadlineParts(command);
+        String[] parts = parser.deadlineParts(command);
         try {
             return new Deadline(parts[0], parts[1]);
         } catch (IllegalArgumentException e) {

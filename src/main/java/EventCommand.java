@@ -9,7 +9,7 @@ public class EventCommand extends AddTaskCommand {
 
     @Override
     protected Task createTask() throws OreoException {
-        String[] parts = new Parser().eventParts(command);
+        String[] parts = parser.eventParts(command);
         try {
             return new Event(parts[0], parts[1], parts[2]);
         } catch (IllegalArgumentException e) {

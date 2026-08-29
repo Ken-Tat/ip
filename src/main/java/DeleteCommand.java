@@ -9,7 +9,6 @@ public class DeleteCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException {
-        Parser parser = new Parser();
         Task task = tasks.get(parser.taskIndex(taskNumber, tasks.size()));
         tasks.remove(task);
         storage.save(tasks);

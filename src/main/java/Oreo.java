@@ -30,7 +30,8 @@ public class Oreo {
                     command.execute(tasks, UI, STORAGE);
                     isExit = command.isExit();
                 } else if (commandType == CommandType.LIST) {
-                UI.showTaskList(tasks);
+                    Command command = new ListCommand();
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.MARK) {
                     Task task = getTask(tasks, PARSER.argument(userInput, "mark"));
                     task.markAsDone();

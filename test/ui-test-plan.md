@@ -12,6 +12,110 @@
 
 ## Test cases
 
+### Test: Query tasks by date
+
+**Aim:** Confirm that `on YYYY-MM-DD` finds deadlines and events on a date and handles an invalid date.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+```
+
+**Input:**
+```text
+deadline return book /by 2019-10-15
+event project meeting /from 2019-10-15 /to 2019-10-16
+on 2019-10-15
+on 2019-02-30
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[D][ ] return book (by: Oct 15 2019)
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[E][ ] project meeting (from: Oct 15 2019 to: Oct 16 2019)
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Tasks occurring on Oct 15 2019:
+1.[D][ ] return book (by: Oct 15 2019)
+2.[E][ ] project meeting (from: Oct 15 2019 to: Oct 16 2019)
+____________________________________________
+____________________________________________
+  Oh My God! Use a date in yyyy-MM-dd format.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+```
+
+### Test: Parse and format calendar dates and times
+
+**Aim:** Confirm that supported date inputs are stored as calendar values and displayed in a different human-readable format.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+```
+
+**Input:**
+```text
+deadline return book /by 2/12/2019 1800
+deadline submit report /by 2019-10-15
+list
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[D][ ] return book (by: Dec 02 2019 6:00PM)
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[D][ ] submit report (by: Oct 15 2019)
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[D][ ] return book (by: Dec 02 2019 6:00PM)
+2.[D][ ] submit report (by: Oct 15 2019)
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+```
+
 ### Test: Greeting and graceful exit
 
 **Aim:** Confirm that Oreo displays its greeting and exits with its goodbye message when the user enters `bye`.

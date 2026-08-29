@@ -8,6 +8,7 @@ public enum CommandType {
     DEADLINE,
     EVENT,
     TODO,
+    ON_DATE,
     EMPTY,
     UNKNOWN;
 
@@ -29,6 +30,8 @@ public enum CommandType {
             return EVENT;
         } else if (input.equals("todo") || input.startsWith("todo ")) {
             return TODO;
+        } else if (input.equals("on") || input.startsWith("on ")) {
+            return ON_DATE;
         } else if (input.isEmpty()) {
             return EMPTY;
         }

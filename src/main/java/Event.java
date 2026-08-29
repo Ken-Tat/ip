@@ -1,9 +1,14 @@
+import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 /**
  * Represents a task that starts and ends at specified dates or times.
  */
 public class Event extends Task {
-    private final String from;
-    private final String to;
+    private final LocalDateTime fromDateTime;
+    private final LocalDateTime toDateTime;
+    private final String fromText;
+    private final String toText;
 
     /**
      * Creates an incomplete event task.
@@ -14,8 +19,10 @@ public class Event extends Task {
      */
     public Event(String description, String from, String to) {
         super(description);
-        this.from = from;
-        this.to = to;
+        this.fromDateTime = DateTimeParser.parse(from);
+        this.toDateTime = DateTimeParser.parse(to);
+        this.fromText = from;
+        this.toText = to;
     }
 
     @Override
@@ -25,16 +32,23 @@ public class Event extends Task {
 
     /** Returns the event start text for persistence. */
     public String getFrom() {
-        return from;
+        return fromText;
     }
 
     /** Returns the event end text for persistence. */
     public String getTo() {
-        return to;
+        return toText;
+    }
+
+    /** Returns whether this event starts or ends on the supplied date. */
+    public boolean occursOn(LocalDate date) {
+        return (fromDateTime != null && fromDateTime.toLocalDate().equals(date))
+                || (toDateTime != null && toDateTime.toLocalDate().equals(date));
     }
 
     @Override
     public String toString() {
-        return super.toString() + " (from: " + from + " to: " + to + ")";
+        return super.toString() + " (from: " + DateTimeParser.format(fromDateTime, fromText)
+                + " to: " + DateTimeParser.format(toDateTime, toText) + ")";
     }
 }

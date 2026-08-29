@@ -8,6 +8,7 @@ import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.time.LocalDate;
 
 /**
  * A simple command-line chatbot that stores and displays user-entered tasks.
@@ -83,6 +84,9 @@ public class Oreo {
                 } else if (commandType == CommandType.TODO) {
                 addTodo(tasks, userInput.length() == "todo".length()
                         ? "" : userInput.substring("todo ".length()).trim());
+                } else if (commandType == CommandType.ON_DATE) {
+                    listTasksOnDate(tasks, userInput.length() == "on".length()
+                            ? "" : userInput.substring("on ".length()).trim());
                 } else {
                     throw new OreoException("I cannot comprehend your English.");
                 }
@@ -147,7 +151,11 @@ public class Oreo {
         if (description.isEmpty() || by.isEmpty()) {
             throw new OreoException("Use: deadline DESCRIPTION /by DATE");
         }
-        addTask(tasks, new Deadline(description, by));
+        try {
+            addTask(tasks, new Deadline(description, by));
+        } catch (IllegalArgumentException e) {
+            throw new OreoException(e.getMessage());
+        }
     }
 
     /** Parses and adds an event in the form {@code description /from start /to end}. */
@@ -164,7 +172,11 @@ public class Oreo {
         if (description.isEmpty() || from.isEmpty() || to.isEmpty()) {
             throw new OreoException("Use: event DESCRIPTION /from START /to END");
         }
-        addTask(tasks, new Event(description, from, to));
+        try {
+            addTask(tasks, new Event(description, from, to));
+        } catch (IllegalArgumentException e) {
+            throw new OreoException(e.getMessage());
+        }
     }
 
     /** Prints the confirmation after adding a task. */
@@ -176,6 +188,31 @@ public class Oreo {
                 + task + "\n"
                 + "Now you have " + tasks.size() + " tasks in the list.\n"
                 + "____________________________________________");
+    }
+
+    /** Lists parsed deadlines and events occurring on an ISO date. */
+    private static void listTasksOnDate(List<Task> tasks, String dateText) throws OreoException {
+        if (dateText.isEmpty()) {
+            throw new OreoException("Use: on YYYY-MM-DD");
+        }
+        final LocalDate date;
+        try {
+            date = DateTimeParser.parseDate(dateText);
+        } catch (IllegalArgumentException e) {
+            throw new OreoException(e.getMessage());
+        }
+        System.out.println("____________________________________________");
+        System.out.println("Tasks occurring on " + date.format(java.time.format.DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
+        int count = 0;
+        for (Task task : tasks) {
+            boolean occurs = task instanceof Deadline deadline && deadline.occursOn(date)
+                    || task instanceof Event event && event.occursOn(date);
+            if (occurs) {
+                System.out.println((++count) + "." + task);
+            }
+        }
+        if (count == 0) System.out.println("No deadlines or events on this date.");
+        System.out.println("____________________________________________");
     }
 
     /** Prints a consistently formatted message for invalid commands. */

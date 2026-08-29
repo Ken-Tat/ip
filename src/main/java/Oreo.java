@@ -29,7 +29,7 @@ public class Oreo {
             userInput = ui.readCommand();
 
             try {
-                Command command = parser.parseCommand(userInput);
+                Command command = parser.parse(userInput);
                 command.execute(tasks, ui, storage);
                 isExit = command.isExit();
             } catch (OreoException e) {

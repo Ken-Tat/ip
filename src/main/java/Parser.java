@@ -1,13 +1,8 @@
-/** Converts raw user input into the command classification used by Oreo. */
+/** Converts raw user input into executable commands. */
 public class Parser {
-    /** Identifies the command represented by the supplied input. */
-    public CommandType parse(String input) throws OreoException {
-        return CommandType.fromInput(input);
-    }
-
     /** Parses complete input into an executable command object. */
-    public Command parseCommand(String input) throws OreoException {
-        return switch (parse(input)) {
+    public Command parse(String input) throws OreoException {
+        return switch (CommandType.fromInput(input)) {
         case BYE -> new ExitCommand();
         case LIST -> new ListCommand();
         case MARK -> new MarkCommand(argument(input, "mark"));

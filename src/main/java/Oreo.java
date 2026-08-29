@@ -16,6 +16,7 @@ import java.time.LocalDate;
 public class Oreo {
     private static final String NAME = "Oreo";
     private static final Path TASK_FILE = Path.of("data", "oreo.txt");
+    private static final Storage STORAGE = new Storage(TASK_FILE);
 
     public static void main(String[] args) {
         String banner = "  OOO   RRRR   EEEEE  OOO  \n"
@@ -34,7 +35,7 @@ public class Oreo {
                 + "Good work. See you next time! \n"
                 + "____________________________________________ \n";
 
-        TaskList tasks = new TaskList(loadTasks());
+        TaskList tasks = new TaskList(STORAGE.load());
         System.out.println(greeting);
 
         // Reads commands from standard input.
@@ -64,12 +65,12 @@ public class Oreo {
                 } else if (commandType == CommandType.MARK) {
                     Task task = getTask(tasks, userInput.substring("mark".length()).trim());
                     task.markAsDone();
-                    saveTasks(tasks);
+                    STORAGE.save(tasks);
                     printSuccess("Nice! I've marked this task as done:", task);
                 } else if (commandType == CommandType.UNMARK) {
                     Task task = getTask(tasks, userInput.substring("unmark".length()).trim());
                     task.markAsNotDone();
-                    saveTasks(tasks);
+                    STORAGE.save(tasks);
                     printSuccess("OK, I've marked this task as not done yet:", task);
                 } else if (commandType == CommandType.DELETE) {
                     deleteTask(tasks, userInput.substring("delete".length()).trim());
@@ -124,7 +125,7 @@ public class Oreo {
     private static void deleteTask(TaskList tasks, String taskNumberText) throws OreoException {
         Task task = getTask(tasks, taskNumberText);
         tasks.remove(task);
-        saveTasks(tasks);
+        STORAGE.save(tasks);
         System.out.println("____________________________________________\n"
                 + "Noted. I've removed this task:\n"
                 + "  " + task + "\n"
@@ -182,7 +183,7 @@ public class Oreo {
     /** Prints the confirmation after adding a task. */
     private static void addTask(TaskList tasks, Task task) {
         tasks.add(task);
-        saveTasks(tasks);
+        STORAGE.save(tasks);
         System.out.println("____________________________________________\n"
                 + "Got it. I've added this task:\n"
                 + task + "\n"

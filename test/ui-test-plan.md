@@ -7,6 +7,7 @@
 - Each test command compiles the current Java source before running it, so the test checks the version currently in the working tree.
 - Output comparisons are exact, including spaces and blank lines.
 - The task status, task type, and command classification enums must preserve the existing task markers and user-facing messages.
+- Successful task additions, deletions, marks, and unmarks write the current list to `data/oreo.txt`; the save file is not loaded yet.
 
 ## Test cases
 
@@ -16,7 +17,7 @@
 
 **Command:**
 ```sh
-javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
 ```
 
 **Input:**
@@ -48,7 +49,7 @@ ____________________________________________
 
 **Command:**
 ```sh
-javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
 ```
 
 **Input:**
@@ -99,7 +100,7 @@ ____________________________________________
 
 **Command:**
 ```sh
-javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
 ```
 
 **Input:**
@@ -150,7 +151,7 @@ ____________________________________________
 
 **Command:**
 ```sh
-javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
 ```
 
 **Input:**
@@ -207,7 +208,7 @@ ____________________________________________
 
 **Command:**
 ```sh
-javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
 ```
 
 **Input:**
@@ -254,13 +255,50 @@ ____________________________________________
 
 ```
 
+### Test: Load tasks saved by a previous run
+
+**Aim:** Confirm that a task saved in one run is loaded and listed when Oreo starts again.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && printf 'todo buy milk\nbye\n' | java -cp /tmp/oreo-ui-test-classes Oreo >/tmp/oreo-first-run.txt && printf 'list\nbye\n' | java -cp /tmp/oreo-ui-test-classes Oreo
+```
+
+**Input:**
+```text
+list
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1.[T][ ] buy milk
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+```
+
 ### Test: Delete tasks and reject invalid delete numbers
 
 **Aim:** Confirm that deletion removes the selected task and re-numbers the list, while missing, zero, out-of-range, and empty-list delete commands leave the list unchanged.
 
 **Command:**
 ```sh
-javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && java -cp /tmp/oreo-ui-test-classes Oreo
 ```
 
 **Input:**

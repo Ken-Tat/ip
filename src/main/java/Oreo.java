@@ -35,18 +35,7 @@ public class Oreo {
                 if (commandType == CommandType.BYE) {
                     UI.showGoodbye();
                 } else if (commandType == CommandType.LIST) {
-                System.out.println("____________________________________________");
-
-                if (tasks.isEmpty()) {
-                    System.out.println("No tasks in the list.");
-                } else {
-                    System.out.println("Here are the tasks in your list:");
-                    for (int i = 0; i < tasks.size(); i++) {
-                        System.out.println((i + 1) + "." + tasks.get(i));
-                    }
-                }
-
-                System.out.println("____________________________________________");
+                UI.showTaskList(tasks);
                 } else if (commandType == CommandType.MARK) {
                     Task task = getTask(tasks, userInput.substring("mark".length()).trim());
                     task.markAsDone();
@@ -103,11 +92,7 @@ public class Oreo {
         Task task = getTask(tasks, taskNumberText);
         tasks.remove(task);
         STORAGE.save(tasks);
-        System.out.println("____________________________________________\n"
-                + "Noted. I've removed this task:\n"
-                + "  " + task + "\n"
-                + "Now you have " + tasks.size() + " tasks in the list.\n"
-                + "____________________________________________");
+        UI.showDeleted(task, tasks.size());
     }
 
     /** Adds a to-do when the user supplied a non-empty description. */
@@ -161,11 +146,7 @@ public class Oreo {
     private static void addTask(TaskList tasks, Task task) {
         tasks.add(task);
         STORAGE.save(tasks);
-        System.out.println("____________________________________________\n"
-                + "Got it. I've added this task:\n"
-                + task + "\n"
-                + "Now you have " + tasks.size() + " tasks in the list.\n"
-                + "____________________________________________");
+        UI.showAdded(task, tasks.size());
     }
 
     /** Lists parsed deadlines and events occurring on an ISO date. */

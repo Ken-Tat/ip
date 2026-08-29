@@ -34,4 +34,34 @@ public class Ui {
         System.out.println("____________________________________________\n"
                 + "  Oh My God! " + message + "\n____________________________________________");
     }
+
+    /** Displays all tasks, or an empty-list message. */
+    public void showTaskList(TaskList tasks) {
+        System.out.println("____________________________________________");
+        if (tasks.isEmpty()) {
+            System.out.println("No tasks in the list.");
+        } else {
+            System.out.println("Here are the tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println((i + 1) + "." + tasks.get(i));
+            }
+        }
+        System.out.println("____________________________________________");
+    }
+
+    /** Displays confirmation after adding a task. */
+    public void showAdded(Task task, int taskCount) {
+        System.out.println("____________________________________________\n"
+                + "Got it. I've added this task:\n" + task + "\n"
+                + "Now you have " + taskCount + " tasks in the list.\n"
+                + "____________________________________________");
+    }
+
+    /** Displays confirmation after deleting a task. */
+    public void showDeleted(Task task, int taskCount) {
+        System.out.println("____________________________________________\n"
+                + "Noted. I've removed this task:\n  " + task + "\n"
+                + "Now you have " + taskCount + " tasks in the list.\n"
+                + "____________________________________________");
+    }
 }

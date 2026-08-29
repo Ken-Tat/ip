@@ -43,7 +43,8 @@ public class Oreo {
                     STORAGE.save(tasks);
                     UI.showSuccess("OK, I've marked this task as not done yet:", task);
                 } else if (commandType == CommandType.DELETE) {
-                    deleteTask(tasks, PARSER.argument(userInput, "delete"));
+                    Command command = new DeleteCommand(PARSER.argument(userInput, "delete"));
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.EMPTY) {
                     throw new OreoException("Please enter a command.");
                 } else if (commandType == CommandType.DEADLINE) {
@@ -66,14 +67,6 @@ public class Oreo {
     /** Finds a task or throws an input error without changing the task list. */
     private static Task getTask(TaskList tasks, String taskNumberText) throws OreoException {
         return tasks.get(PARSER.taskIndex(taskNumberText, tasks.size()));
-    }
-
-    /** Removes the selected task and reports the remaining number of tasks. */
-    private static void deleteTask(TaskList tasks, String taskNumberText) throws OreoException {
-        Task task = getTask(tasks, taskNumberText);
-        tasks.remove(task);
-        STORAGE.save(tasks);
-        UI.showDeleted(task, tasks.size());
     }
 
     /** Adds a to-do when the user supplied a non-empty description. */

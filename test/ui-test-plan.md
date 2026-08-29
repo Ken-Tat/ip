@@ -9,6 +9,7 @@
 - The task status, task type, and command classification enums must preserve the existing task markers and user-facing messages.
 - Successful task additions, deletions, marks, and unmarks write the current list to `data/oreo.txt`; startup loads valid records and ignores malformed records.
 - Persistence failures are reported on stderr while the chatbot continues running, so UI output remains stable.
+- The existing end-to-end cases cover the greeting and goodbye messages now provided by the Ui class.
 
 ## Test cases
 

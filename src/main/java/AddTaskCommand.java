@@ -3,11 +3,11 @@ public abstract class AddTaskCommand extends Command {
     protected AddTaskCommand(Parser parser) { super(parser); }
 
     @Override
-    public final void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException {
+    public final void execute(AppContext context) throws OreoException {
         Task task = createTask();
-        tasks.add(task);
-        storage.save(tasks);
-        ui.showAdded(task, tasks.size());
+        context.tasks.add(task);
+        context.storage.save(context.tasks);
+        context.ui.showAdded(task, context.tasks.size());
     }
 
     /** Parses this command's arguments and creates its task. */

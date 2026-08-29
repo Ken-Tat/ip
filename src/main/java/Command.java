@@ -9,7 +9,7 @@ public abstract class Command {
     }
 
     /** Executes this command. */
-    public abstract void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException;
+    public abstract void execute(AppContext context) throws OreoException;
 
     /** Returns whether this command ends the application. */
     public boolean isExit() {

@@ -11,7 +11,7 @@ public class OnDateCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException {
+    public void execute(AppContext context) throws OreoException {
         if (dateText.isEmpty()) {
             throw new OreoException("Use: on YYYY-MM-DD");
         }
@@ -21,6 +21,6 @@ public class OnDateCommand extends Command {
         } catch (IllegalArgumentException e) {
             throw new OreoException(e.getMessage());
         }
-        ui.showTasksOnDate(tasks, date);
+        context.ui.showTasksOnDate(context.tasks, date);
     }
 }

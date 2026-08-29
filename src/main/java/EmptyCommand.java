@@ -3,7 +3,7 @@ public class EmptyCommand extends Command {
     public EmptyCommand(Parser parser) { super(parser); }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException {
+    public void execute(AppContext context) throws OreoException {
         throw new OreoException("Please enter a command.");
     }
 }

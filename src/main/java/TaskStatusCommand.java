@@ -15,10 +15,10 @@ public abstract class TaskStatusCommand extends Command {
     protected abstract String message();
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException {
-        Task task = tasks.get(parser.taskIndex(taskNumber, tasks.size()));
+    public void execute(AppContext context) throws OreoException {
+        Task task = context.tasks.get(parser.taskIndex(taskNumber, context.tasks.size()));
         update(task);
-        storage.save(tasks);
-        ui.showSuccess(message(), task);
+        context.storage.save(context.tasks);
+        context.ui.showSuccess(message(), task);
     }
 }

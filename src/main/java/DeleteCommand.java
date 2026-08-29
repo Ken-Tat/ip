@@ -9,10 +9,10 @@ public class DeleteCommand extends Command {
     }
 
     @Override
-    public void execute(TaskList tasks, Ui ui, Storage storage) throws OreoException {
-        Task task = tasks.get(parser.taskIndex(taskNumber, tasks.size()));
-        tasks.remove(task);
-        storage.save(tasks);
-        ui.showDeleted(task, tasks.size());
+    public void execute(AppContext context) throws OreoException {
+        Task task = context.tasks.get(parser.taskIndex(taskNumber, context.tasks.size()));
+        context.tasks.remove(task);
+        context.storage.save(context.tasks);
+        context.ui.showDeleted(task, context.tasks.size());
     }
 }

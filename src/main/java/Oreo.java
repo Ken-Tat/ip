@@ -8,6 +8,7 @@ public class Oreo {
     private final Parser parser;
     private final Ui ui;
     private final TaskList tasks;
+    private final AppContext context;
 
     /** Creates an Oreo application using the default task file. */
     public Oreo() {
@@ -15,6 +16,7 @@ public class Oreo {
         parser = new Parser(new CommandFactory());
         ui = new Ui();
         tasks = new TaskList(storage.load());
+        context = new AppContext(tasks, ui, storage);
     }
 
     /** Runs the command loop until an exit command is received. */
@@ -30,7 +32,7 @@ public class Oreo {
 
             try {
                 Command command = parser.parse(userInput);
-                command.execute(tasks, ui, storage);
+                command.execute(context);
                 isExit = command.isExit();
             } catch (OreoException e) {
                 ui.showError(e.getMessage());

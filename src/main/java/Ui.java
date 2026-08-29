@@ -5,6 +5,7 @@ import java.util.Scanner;
 /** Handles messages that greet the user and close the application. */
 public class Ui {
     private static final String NAME = "Oreo";
+    private static final String LINE = "____________________________________________";
     private final Scanner scanner;
 
     /** Creates a UI that reads commands from standard input. */
@@ -20,6 +21,11 @@ public class Ui {
     /** Reads and trims the next user command. */
     public String readCommand() {
         return scanner.nextLine().trim();
+    }
+
+    /** Displays the standard response divider. */
+    public void showLine() {
+        System.out.println(LINE);
     }
 
     /** Displays the application's greeting banner. */
@@ -57,7 +63,7 @@ public class Ui {
 
     /** Displays all tasks, or an empty-list message. */
     public void showTaskList(TaskList tasks) {
-        System.out.println("____________________________________________");
+        showLine();
         if (tasks.isEmpty()) {
             System.out.println("No tasks in the list.");
         } else {
@@ -66,7 +72,7 @@ public class Ui {
                 System.out.println((i + 1) + "." + tasks.get(i));
             }
         }
-        System.out.println("____________________________________________");
+        showLine();
     }
 
     /** Displays confirmation after adding a task. */
@@ -87,7 +93,7 @@ public class Ui {
 
     /** Displays deadlines and events occurring on the supplied date. */
     public void showTasksOnDate(TaskList tasks, LocalDate date) {
-        System.out.println("____________________________________________");
+        showLine();
         System.out.println("Tasks occurring on "
                 + date.format(DateTimeFormatter.ofPattern("MMM dd yyyy")) + ":");
         int count = 0;
@@ -99,6 +105,6 @@ public class Ui {
             }
         }
         if (count == 0) System.out.println("No deadlines or events on this date.");
-        System.out.println("____________________________________________");
+        showLine();
     }
 }

@@ -4,6 +4,10 @@ import java.util.Scanner;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * A simple command-line chatbot that stores and displays user-entered tasks.
@@ -181,37 +185,108 @@ public class Oreo {
                 + "____________________________________________");
     }
 
-    /** Saves the current task list in a simple, one-task-per-line text format. */
+    /** Saves the current task list without leaving a partially written file behind. */
     private static void saveTasks(List<Task> tasks) {
+        Path parent = TASK_FILE.getParent();
+        Path temporaryFile = null;
         try {
-            Files.createDirectories(TASK_FILE.getParent());
-            Files.write(TASK_FILE, tasks.stream().map(Task::toString).toList());
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to save tasks.", e);
+            if (Files.exists(parent) && !Files.isDirectory(parent)) {
+                throw new IOException("The data path is not a directory.");
+            }
+            Files.createDirectories(parent);
+            temporaryFile = Files.createTempFile(parent, "oreo", ".tmp");
+            List<String> lines = tasks.stream().map(Oreo::formatTask).toList();
+            Files.write(temporaryFile, lines, StandardCharsets.UTF_8,
+                    StandardOpenOption.TRUNCATE_EXISTING);
+            try {
+                Files.move(temporaryFile, TASK_FILE, StandardCopyOption.ATOMIC_MOVE,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException | UnsupportedOperationException e) {
+                Files.move(temporaryFile, TASK_FILE, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException | SecurityException e) {
+            System.err.println("Warning: unable to save tasks: " + e.getMessage());
+        } finally {
+            if (temporaryFile != null) {
+                try {
+                    Files.deleteIfExists(temporaryFile);
+                } catch (IOException ignored) {
+                    // The temporary file is harmless and can be cleaned up later.
+                }
+            }
         }
     }
 
-    /** Loads previously saved tasks, ignoring malformed lines in the file. */
+    /** Encodes task fields so separators and unusual user text cannot corrupt the file. */
+    private static String formatTask(Task task) {
+        String type = task.getTaskType().getMarker();
+        String status = task.getStatusIcon().equals("X") ? "1" : "0";
+        StringBuilder line = new StringBuilder(type).append('|').append(status).append('|')
+                .append(encode(task.description));
+        if (task instanceof Deadline deadline) {
+            line.append('|').append(encode(deadline.getBy()));
+        } else if (task instanceof Event event) {
+            line.append('|').append(encode(event.getFrom())).append('|')
+                    .append(encode(event.getTo()));
+        }
+        return line.toString();
+    }
+
+    private static String encode(String value) {
+        return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /** Loads previously saved tasks, ignoring malformed lines and filesystem failures. */
     private static List<Task> loadTasks() {
         List<Task> tasks = new ArrayList<>();
-        if (!Files.exists(TASK_FILE)) {
+        if (!Files.isRegularFile(TASK_FILE)) {
             return tasks;
         }
         try {
             for (String line : Files.readAllLines(TASK_FILE)) {
-                Task task = parseTask(line);
+                Task task = parseStoredTask(line);
                 if (task != null) {
                     tasks.add(task);
                 }
             }
-        } catch (IOException e) {
-            throw new IllegalStateException("Unable to load tasks.", e);
+        } catch (IOException | SecurityException e) {
+            System.err.println("Warning: unable to load tasks: " + e.getMessage());
         }
         return tasks;
     }
 
+    private static Task parseStoredTask(String line) {
+        String[] fields = line.split("\\|", -1);
+        try {
+            if (fields.length < 3 || !fields[1].matches("[01]")) {
+                return parseLegacyTask(line);
+            }
+            String description = new String(Base64.getDecoder().decode(fields[2]), StandardCharsets.UTF_8);
+            Task task;
+            if (fields[0].equals("T") && fields.length == 3) {
+                task = new Todo(description);
+            } else if (fields[0].equals("D") && fields.length == 4) {
+                task = new Deadline(description, decode(fields[3]));
+            } else if (fields[0].equals("E") && fields.length == 5) {
+                task = new Event(description, decode(fields[3]), decode(fields[4]));
+            } else {
+                return null;
+            }
+            if (fields[1].equals("1")) {
+                task.markAsDone();
+            }
+            return task;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private static String decode(String value) {
+        return new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8);
+    }
+
     /** Reconstructs one task from the display format written by {@link #saveTasks(List)}. */
-    private static Task parseTask(String line) {
+    private static Task parseLegacyTask(String line) {
         if (line.length() < 7 || line.charAt(0) != '[' || line.charAt(2) != ']'
                 || line.charAt(3) != '[') {
             return null;

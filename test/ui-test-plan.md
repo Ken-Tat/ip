@@ -7,7 +7,8 @@
 - Each test command compiles the current Java source before running it, so the test checks the version currently in the working tree.
 - Output comparisons are exact, including spaces and blank lines.
 - The task status, task type, and command classification enums must preserve the existing task markers and user-facing messages.
-- Successful task additions, deletions, marks, and unmarks write the current list to `data/oreo.txt`; the save file is not loaded yet.
+- Successful task additions, deletions, marks, and unmarks write the current list to `data/oreo.txt`; startup loads valid records and ignores malformed records.
+- Persistence failures are reported on stderr while the chatbot continues running, so UI output remains stable.
 
 ## Test cases
 
@@ -261,7 +262,7 @@ ____________________________________________
 
 **Command:**
 ```sh
-rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && printf 'todo buy milk\nbye\n' | java -cp /tmp/oreo-ui-test-classes Oreo >/tmp/oreo-first-run.txt && printf 'list\nbye\n' | java -cp /tmp/oreo-ui-test-classes Oreo
+rm -rf data && javac -d /tmp/oreo-ui-test-classes src/main/java/*.java && printf 'todo buy milk\nbye\n' | java -cp /tmp/oreo-ui-test-classes Oreo >/tmp/oreo-first-run.txt && printf 'list\nbye\n' | java -cp /tmp/oreo-ui-test-classes Oreo
 ```
 
 **Input:**

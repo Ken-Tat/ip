@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.nio.file.Path;
 
 /**
@@ -15,12 +14,11 @@ public class Oreo {
         UI.showGreeting();
 
         // Reads commands from standard input.
-        Scanner scanner = new Scanner(System.in);
         String userInput = "";
         boolean isExit = false;
 
-        while (!isExit && scanner.hasNextLine()) {
-            userInput = scanner.nextLine().trim();
+        while (!isExit && UI.hasNextCommand()) {
+            userInput = UI.readCommand();
 
             try {
                 Command command = PARSER.parseCommand(userInput);

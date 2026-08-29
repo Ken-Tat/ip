@@ -1,9 +1,26 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 /** Handles messages that greet the user and close the application. */
 public class Ui {
     private static final String NAME = "Oreo";
+    private final Scanner scanner;
+
+    /** Creates a UI that reads commands from standard input. */
+    public Ui() {
+        scanner = new Scanner(System.in);
+    }
+
+    /** Returns whether another command is available. */
+    public boolean hasNextCommand() {
+        return scanner.hasNextLine();
+    }
+
+    /** Reads and trims the next user command. */
+    public String readCommand() {
+        return scanner.nextLine().trim();
+    }
 
     /** Displays the application's greeting banner. */
     public void showGreeting() {

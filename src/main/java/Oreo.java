@@ -33,15 +33,11 @@ public class Oreo {
                     Command command = new ListCommand();
                     command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.MARK) {
-                    Task task = getTask(tasks, PARSER.argument(userInput, "mark"));
-                    task.markAsDone();
-                    STORAGE.save(tasks);
-                    UI.showSuccess("Nice! I've marked this task as done:", task);
+                    Command command = new MarkCommand(PARSER.argument(userInput, "mark"));
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.UNMARK) {
-                    Task task = getTask(tasks, PARSER.argument(userInput, "unmark"));
-                    task.markAsNotDone();
-                    STORAGE.save(tasks);
-                    UI.showSuccess("OK, I've marked this task as not done yet:", task);
+                    Command command = new UnmarkCommand(PARSER.argument(userInput, "unmark"));
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.DELETE) {
                     Command command = new DeleteCommand(PARSER.argument(userInput, "delete"));
                     command.execute(tasks, UI, STORAGE);
@@ -62,11 +58,6 @@ public class Oreo {
                 UI.showError(e.getMessage());
             }
         }
-    }
-
-    /** Finds a task or throws an input error without changing the task list. */
-    private static Task getTask(TaskList tasks, String taskNumberText) throws OreoException {
-        return tasks.get(PARSER.taskIndex(taskNumberText, tasks.size()));
     }
 
     /** Adds a to-do when the user supplied a non-empty description. */

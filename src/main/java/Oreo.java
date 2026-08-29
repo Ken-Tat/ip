@@ -29,31 +29,27 @@ public class Oreo {
                 } else if (commandType == CommandType.LIST) {
                 UI.showTaskList(tasks);
                 } else if (commandType == CommandType.MARK) {
-                    Task task = getTask(tasks, userInput.substring("mark".length()).trim());
+                    Task task = getTask(tasks, PARSER.argument(userInput, "mark"));
                     task.markAsDone();
                     STORAGE.save(tasks);
                     UI.showSuccess("Nice! I've marked this task as done:", task);
                 } else if (commandType == CommandType.UNMARK) {
-                    Task task = getTask(tasks, userInput.substring("unmark".length()).trim());
+                    Task task = getTask(tasks, PARSER.argument(userInput, "unmark"));
                     task.markAsNotDone();
                     STORAGE.save(tasks);
                     UI.showSuccess("OK, I've marked this task as not done yet:", task);
                 } else if (commandType == CommandType.DELETE) {
-                    deleteTask(tasks, userInput.substring("delete".length()).trim());
+                    deleteTask(tasks, PARSER.argument(userInput, "delete"));
                 } else if (commandType == CommandType.EMPTY) {
                     throw new OreoException("Please enter a command.");
                 } else if (commandType == CommandType.DEADLINE) {
-                    addDeadline(tasks, userInput.length() == "deadline".length()
-                            ? "" : userInput.substring("deadline ".length()).trim());
+                    addDeadline(tasks, PARSER.argument(userInput, "deadline"));
                 } else if (commandType == CommandType.EVENT) {
-                    addEvent(tasks, userInput.length() == "event".length()
-                            ? "" : userInput.substring("event ".length()).trim());
+                    addEvent(tasks, PARSER.argument(userInput, "event"));
                 } else if (commandType == CommandType.TODO) {
-                addTodo(tasks, userInput.length() == "todo".length()
-                        ? "" : userInput.substring("todo ".length()).trim());
+                addTodo(tasks, PARSER.argument(userInput, "todo"));
                 } else if (commandType == CommandType.ON_DATE) {
-                    listTasksOnDate(tasks, userInput.length() == "on".length()
-                            ? "" : userInput.substring("on ".length()).trim());
+                    listTasksOnDate(tasks, PARSER.argument(userInput, "on"));
                 } else {
                     throw new OreoException("I cannot comprehend your English.");
                 }

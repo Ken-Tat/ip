@@ -14,30 +14,14 @@ import java.time.LocalDate;
  * A simple command-line chatbot that stores and displays user-entered tasks.
  */
 public class Oreo {
-    private static final String NAME = "Oreo";
     private static final Path TASK_FILE = Path.of("data", "oreo.txt");
     private static final Storage STORAGE = new Storage(TASK_FILE);
     private static final Parser PARSER = new Parser();
+    private static final Ui UI = new Ui();
 
     public static void main(String[] args) {
-        String banner = "  OOO   RRRR   EEEEE  OOO  \n"
-                + " O   O  R   R  E     O   O \n"
-                + " O   O  RRRR   EEEE  O   O \n"
-                + " O   O  R R    E     O   O \n"
-                + "  OOO   R  RR  EEEEE  OOO  \n";
-
-        String greeting = "____________________________________________ \n"
-                + banner + "\n"
-                + "Hello! I'm " + NAME + ". \n"
-                + "Let's get started shall we? \n"
-                + "____________________________________________";
-
-        String goodbye = "____________________________________________ \n"
-                + "Good work. See you next time! \n"
-                + "____________________________________________ \n";
-
         TaskList tasks = new TaskList(STORAGE.load());
-        System.out.println(greeting);
+        UI.showGreeting();
 
         // Reads commands from standard input.
         Scanner scanner = new Scanner(System.in);
@@ -49,7 +33,7 @@ public class Oreo {
             try {
                 CommandType commandType = PARSER.parse(userInput);
                 if (commandType == CommandType.BYE) {
-                    System.out.println(goodbye);
+                    UI.showGoodbye();
                 } else if (commandType == CommandType.LIST) {
                 System.out.println("____________________________________________");
 

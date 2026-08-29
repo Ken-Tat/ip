@@ -17,6 +17,7 @@ public class Oreo {
     private static final String NAME = "Oreo";
     private static final Path TASK_FILE = Path.of("data", "oreo.txt");
     private static final Storage STORAGE = new Storage(TASK_FILE);
+    private static final Parser PARSER = new Parser();
 
     public static void main(String[] args) {
         String banner = "  OOO   RRRR   EEEEE  OOO  \n"
@@ -46,7 +47,7 @@ public class Oreo {
             userInput = scanner.nextLine().trim();
 
             try {
-                CommandType commandType = CommandType.fromInput(userInput);
+                CommandType commandType = PARSER.parse(userInput);
                 if (commandType == CommandType.BYE) {
                     System.out.println(goodbye);
                 } else if (commandType == CommandType.LIST) {

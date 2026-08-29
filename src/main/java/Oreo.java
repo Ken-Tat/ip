@@ -61,18 +61,7 @@ public class Oreo {
 
     /** Finds a task or throws an input error without changing the task list. */
     private static Task getTask(TaskList tasks, String taskNumberText) throws OreoException {
-        if (taskNumberText.isEmpty()) {
-            throw new OreoException("Sooo which task is it?");
-        }
-        try {
-            int taskIndex = Integer.parseInt(taskNumberText) - 1;
-            if (taskIndex < 0 || taskIndex >= tasks.size()) {
-                throw new OreoException("I can't find that task number.");
-            }
-            return tasks.get(taskIndex);
-        } catch (NumberFormatException e) {
-            throw new OreoException("That is not a valid task number.");
-        }
+        return tasks.get(PARSER.taskIndex(taskNumberText, tasks.size()));
     }
 
     /** Removes the selected task and reports the remaining number of tasks. */

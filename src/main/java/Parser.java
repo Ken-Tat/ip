@@ -50,4 +50,20 @@ public class Parser {
         }
         return command;
     }
+
+    /** Converts a one-based task number into a zero-based index. */
+    public int taskIndex(String taskNumberText, int taskCount) throws OreoException {
+        if (taskNumberText.isEmpty()) {
+            throw new OreoException("Sooo which task is it?");
+        }
+        try {
+            int taskIndex = Integer.parseInt(taskNumberText) - 1;
+            if (taskIndex < 0 || taskIndex >= taskCount) {
+                throw new OreoException("I can't find that task number.");
+            }
+            return taskIndex;
+        } catch (NumberFormatException e) {
+            throw new OreoException("That is not a valid task number.");
+        }
+    }
 }

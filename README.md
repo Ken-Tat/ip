@@ -25,5 +25,12 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
 
 ## Acknowledgement of AI use 
+
+### Week 2 iP
 - ChatGPT/Codex was used mostly for the code in the submission following the wk 2 iP Increments as followed
 - Review was done and tested personally myself for the example test cases as well.
+
+### Week 3 iP
+- ChatGPT/Codex was used mostly for the code in the submission following the wk 3 iP Increments as instructed
+- Review was done making use of the test scripts and reviewed manually by myself
+- made use of google AI to help understand some code I was unfamiliar with as well.

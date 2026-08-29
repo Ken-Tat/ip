@@ -12,7 +12,7 @@ public class Oreo {
     /** Creates an Oreo application using the default task file. */
     public Oreo() {
         storage = new Storage(Path.of("data", "oreo.txt"));
-        parser = new Parser();
+        parser = new Parser(new CommandFactory());
         ui = new Ui();
         tasks = new TaskList(storage.load());
     }

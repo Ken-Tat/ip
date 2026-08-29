@@ -1,6 +1,11 @@
 /** Converts raw user input into executable commands. */
 public class Parser {
-    private final CommandFactory commandFactory = new CommandFactory();
+    private final CommandFactory commandFactory;
+
+    /** Creates a parser using the supplied command factory. */
+    public Parser(CommandFactory commandFactory) {
+        this.commandFactory = commandFactory;
+    }
 
     /** Parses complete input into an executable command object. */
     public Command parse(String input) throws OreoException {

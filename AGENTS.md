@@ -32,6 +32,10 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 After every code update, review `test/ui-test-plan.md` and update it when the UI behaviour or its test coverage has changed. Then invoke the project-local `$test-ui` skill to run the plan. Record the resulting console session in `test/ui-test-session.md`; if a test fails, stop at that failure and report the expected and actual output before making further changes.
 
+## JUnit test coverage
+
+Maintain JUnit tests for at least the top 50% of the highest-value methods, prioritising complex, core, and critical business logic. After every code change, review the relevant JUnit tests and add or update them as needed to keep this coverage target satisfied. Run the Java 25 test suite after test changes and code changes.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.

@@ -5,6 +5,23 @@ public class Parser {
         return CommandType.fromInput(input);
     }
 
+    /** Parses complete input into an executable command object. */
+    public Command parseCommand(String input) throws OreoException {
+        return switch (parse(input)) {
+        case BYE -> new ExitCommand();
+        case LIST -> new ListCommand();
+        case MARK -> new MarkCommand(argument(input, "mark"));
+        case UNMARK -> new UnmarkCommand(argument(input, "unmark"));
+        case DELETE -> new DeleteCommand(argument(input, "delete"));
+        case DEADLINE -> new DeadlineCommand(argument(input, "deadline"));
+        case EVENT -> new EventCommand(argument(input, "event"));
+        case TODO -> new TodoCommand(argument(input, "todo"));
+        case ON_DATE -> new OnDateCommand(argument(input, "on"));
+        case EMPTY -> new EmptyCommand();
+        case UNKNOWN -> new UnknownCommand();
+        };
+    }
+
     /** Returns the argument following a command keyword, or an empty string. */
     public String argument(String input, String command) {
         if (input.length() == command.length()) {

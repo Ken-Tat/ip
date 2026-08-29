@@ -44,11 +44,14 @@ public class Oreo {
                 } else if (commandType == CommandType.EMPTY) {
                     throw new OreoException("Please enter a command.");
                 } else if (commandType == CommandType.DEADLINE) {
-                    addDeadline(tasks, PARSER.argument(userInput, "deadline"));
+                    Command command = new DeadlineCommand(PARSER.argument(userInput, "deadline"));
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.EVENT) {
-                    addEvent(tasks, PARSER.argument(userInput, "event"));
+                    Command command = new EventCommand(PARSER.argument(userInput, "event"));
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.TODO) {
-                addTodo(tasks, PARSER.argument(userInput, "todo"));
+                    Command command = new TodoCommand(PARSER.argument(userInput, "todo"));
+                    command.execute(tasks, UI, STORAGE);
                 } else if (commandType == CommandType.ON_DATE) {
                     listTasksOnDate(tasks, PARSER.argument(userInput, "on"));
                 } else {
@@ -58,38 +61,6 @@ public class Oreo {
                 UI.showError(e.getMessage());
             }
         }
-    }
-
-    /** Adds a to-do when the user supplied a non-empty description. */
-    private static void addTodo(TaskList tasks, String description) throws OreoException {
-        addTask(tasks, new Todo(PARSER.todoDescription(description)));
-    }
-
-    /** Parses and adds a deadline in the form {@code description /by date}. */
-    private static void addDeadline(TaskList tasks, String command) throws OreoException {
-        String[] parts = PARSER.deadlineParts(command);
-        try {
-            addTask(tasks, new Deadline(parts[0], parts[1]));
-        } catch (IllegalArgumentException e) {
-            throw new OreoException(e.getMessage());
-        }
-    }
-
-    /** Parses and adds an event in the form {@code description /from start /to end}. */
-    private static void addEvent(TaskList tasks, String command) throws OreoException {
-        String[] parts = PARSER.eventParts(command);
-        try {
-            addTask(tasks, new Event(parts[0], parts[1], parts[2]));
-        } catch (IllegalArgumentException e) {
-            throw new OreoException(e.getMessage());
-        }
-    }
-
-    /** Prints the confirmation after adding a task. */
-    private static void addTask(TaskList tasks, Task task) {
-        tasks.add(task);
-        STORAGE.save(tasks);
-        UI.showAdded(task, tasks.size());
     }
 
     /** Lists parsed deadlines and events occurring on an ISO date. */

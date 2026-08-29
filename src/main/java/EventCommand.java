@@ -1,0 +1,19 @@
+/** Command that adds an event task. */
+public class EventCommand extends AddTaskCommand {
+    private final String command;
+
+    /** Creates an event command. */
+    public EventCommand(String command) {
+        this.command = command;
+    }
+
+    @Override
+    protected Task createTask() throws OreoException {
+        String[] parts = new Parser().eventParts(command);
+        try {
+            return new Event(parts[0], parts[1], parts[2]);
+        } catch (IllegalArgumentException e) {
+            throw new OreoException(e.getMessage());
+        }
+    }
+}

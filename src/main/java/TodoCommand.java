@@ -1,0 +1,14 @@
+/** Command that adds a to-do task. */
+public class TodoCommand extends AddTaskCommand {
+    private final String description;
+
+    /** Creates a to-do command. */
+    public TodoCommand(String description) {
+        this.description = description;
+    }
+
+    @Override
+    protected Task createTask() throws OreoException {
+        return new Todo(new Parser().todoDescription(description));
+    }
+}

@@ -1,0 +1,19 @@
+/** Command that adds a deadline task. */
+public class DeadlineCommand extends AddTaskCommand {
+    private final String command;
+
+    /** Creates a deadline command. */
+    public DeadlineCommand(String command) {
+        this.command = command;
+    }
+
+    @Override
+    protected Task createTask() throws OreoException {
+        String[] parts = new Parser().deadlineParts(command);
+        try {
+            return new Deadline(parts[0], parts[1]);
+        } catch (IllegalArgumentException e) {
+            throw new OreoException(e.getMessage());
+        }
+    }
+}

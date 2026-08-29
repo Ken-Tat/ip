@@ -73,7 +73,7 @@ public class Storage {
     private String formatTask(Task task) {
         StringBuilder line = new StringBuilder(task.getTaskType().getMarker())
                 .append('|').append(task.getStatusIcon().equals("X") ? "1" : "0")
-                .append('|').append(encode(task.description));
+                .append('|').append(encode(task.getDescription()));
         if (task instanceof Deadline deadline) {
             line.append('|').append(encode(deadline.getBy()));
         } else if (task instanceof Event event) {
@@ -141,4 +141,3 @@ public class Storage {
         return new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8);
     }
 }
-

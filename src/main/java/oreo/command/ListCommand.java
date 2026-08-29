@@ -1,6 +1,6 @@
 package oreo.command;
 
-import oreo.core.AppContext;
+import oreo.core.*;
 /** Command that displays the current task list. */
 public class ListCommand extends Command {
     public ListCommand(Parser parser) { super(parser); }
@@ -10,4 +10,3 @@ public class ListCommand extends Command {
         context.ui.showTaskList(context.tasks);
     }
 }
-

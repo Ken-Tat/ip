@@ -1,6 +1,8 @@
 package oreo.command;
 
-import oreo.core.OreoException;
+import oreo.core.*;
+import oreo.model.Task;
+import oreo.model.Todo;
 /** Command that adds a to-do task. */
 public class TodoCommand extends AddTaskCommand {
     private final String description;
@@ -16,4 +18,3 @@ public class TodoCommand extends AddTaskCommand {
         return new Todo(parser.todoDescription(description));
     }
 }
-

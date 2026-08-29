@@ -1,6 +1,7 @@
 package oreo.command;
 
-import oreo.core.AppContext;
+import oreo.core.*;
+import oreo.model.Task;
 /** Shared workflow for commands that change one task's completion status. */
 public abstract class TaskStatusCommand extends Command {
     private final String taskNumber;
@@ -25,4 +26,3 @@ public abstract class TaskStatusCommand extends Command {
         context.ui.showSuccess(message(), task);
     }
 }
-

@@ -1,6 +1,6 @@
 package oreo.command;
 
-import oreo.core.AppContext;
+import oreo.core.*;
 /** Command that displays the goodbye message and ends the application. */
 public class ExitCommand extends Command {
     public ExitCommand(Parser parser) { super(parser); }
@@ -15,4 +15,3 @@ public class ExitCommand extends Command {
         return true;
     }
 }
-

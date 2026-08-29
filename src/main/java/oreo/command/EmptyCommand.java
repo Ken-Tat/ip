@@ -1,6 +1,6 @@
 package oreo.command;
 
-import oreo.core.AppContext;
+import oreo.core.*;
 /** Command representing an empty user input. */
 public class EmptyCommand extends Command {
     public EmptyCommand(Parser parser) { super(parser); }
@@ -10,4 +10,3 @@ public class EmptyCommand extends Command {
         throw new OreoException("Please enter a command.");
     }
 }
-

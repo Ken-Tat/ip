@@ -1,6 +1,8 @@
 package oreo.command;
 
-import oreo.core.OreoException;
+import oreo.core.*;
+import oreo.model.Event;
+import oreo.model.Task;
 /** Command that adds an event task. */
 public class EventCommand extends AddTaskCommand {
     private final String command;
@@ -21,4 +23,3 @@ public class EventCommand extends AddTaskCommand {
         }
     }
 }
-

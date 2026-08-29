@@ -1,6 +1,6 @@
 package oreo.command;
 
-import oreo.core.AppContext;
+import oreo.core.*;
 /** Command representing input that is not recognized. */
 public class UnknownCommand extends Command {
     public UnknownCommand(Parser parser) { super(parser); }
@@ -10,4 +10,3 @@ public class UnknownCommand extends Command {
         throw new OreoException("I cannot comprehend your English.");
     }
 }
-

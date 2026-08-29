@@ -22,6 +22,11 @@ public abstract class Task {
     /** Returns the category used to display this task. */
     public abstract TaskType getTaskType();
 
+    /** Returns the task description for persistence and other collaborators. */
+    public String getDescription() {
+        return description;
+    }
+
     /**
      * Returns the icon used to show this task's completion status.
      *

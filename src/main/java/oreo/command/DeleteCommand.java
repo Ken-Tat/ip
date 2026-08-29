@@ -1,6 +1,7 @@
 package oreo.command;
 
-import oreo.core.AppContext;
+import oreo.core.*;
+import oreo.model.Task;
 /** Command that removes one task from the list and persists the result. */
 public class DeleteCommand extends Command {
     private final String taskNumber;
@@ -19,4 +20,3 @@ public class DeleteCommand extends Command {
         context.ui.showDeleted(task, context.tasks.size());
     }
 }
-

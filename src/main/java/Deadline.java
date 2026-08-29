@@ -20,6 +20,11 @@ public class Deadline extends Task {
         return TaskType.DEADLINE;
     }
 
+    /** Returns the deadline text for persistence. */
+    public String getBy() {
+        return by;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " (by: " + by + ")";

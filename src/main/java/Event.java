@@ -23,6 +23,16 @@ public class Event extends Task {
         return TaskType.EVENT;
     }
 
+    /** Returns the event start text for persistence. */
+    public String getFrom() {
+        return from;
+    }
+
+    /** Returns the event end text for persistence. */
+    public String getTo() {
+        return to;
+    }
+
     @Override
     public String toString() {
         return super.toString() + " (from: " + from + " to: " + to + ")";

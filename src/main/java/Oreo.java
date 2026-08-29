@@ -1,12 +1,20 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.StandardOpenOption;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
 /**
  * A simple command-line chatbot that stores and displays user-entered tasks.
  */
 public class Oreo {
     private static final String NAME = "Oreo";
+    private static final Path TASK_FILE = Path.of("data", "oreo.txt");
 
     public static void main(String[] args) {
         String banner = "  OOO   RRRR   EEEEE  OOO  \n"
@@ -25,9 +33,8 @@ public class Oreo {
                 + "Good work. See you next time! \n"
                 + "____________________________________________ \n";
 
+        List<Task> tasks = loadTasks();
         System.out.println(greeting);
-
-        List<Task> tasks = new ArrayList<>();
 
         // Reads commands from standard input.
         Scanner scanner = new Scanner(System.in);
@@ -56,10 +63,12 @@ public class Oreo {
                 } else if (commandType == CommandType.MARK) {
                     Task task = getTask(tasks, userInput.substring("mark".length()).trim());
                     task.markAsDone();
+                    saveTasks(tasks);
                     printSuccess("Nice! I've marked this task as done:", task);
                 } else if (commandType == CommandType.UNMARK) {
                     Task task = getTask(tasks, userInput.substring("unmark".length()).trim());
                     task.markAsNotDone();
+                    saveTasks(tasks);
                     printSuccess("OK, I've marked this task as not done yet:", task);
                 } else if (commandType == CommandType.DELETE) {
                     deleteTask(tasks, userInput.substring("delete".length()).trim());
@@ -111,6 +120,7 @@ public class Oreo {
     private static void deleteTask(List<Task> tasks, String taskNumberText) throws OreoException {
         Task task = getTask(tasks, taskNumberText);
         tasks.remove(task);
+        saveTasks(tasks);
         System.out.println("____________________________________________\n"
                 + "Noted. I've removed this task:\n"
                 + "  " + task + "\n"
@@ -160,6 +170,7 @@ public class Oreo {
     /** Prints the confirmation after adding a task. */
     private static void addTask(List<Task> tasks, Task task) {
         tasks.add(task);
+        saveTasks(tasks);
         System.out.println("____________________________________________\n"
                 + "Got it. I've added this task:\n"
                 + task + "\n"
@@ -172,5 +183,146 @@ public class Oreo {
         System.out.println("____________________________________________\n"
                 + "  Oh My God! " + message + "\n"
                 + "____________________________________________");
+    }
+
+    /** Saves the current task list without leaving a partially written file behind. */
+    private static void saveTasks(List<Task> tasks) {
+        Path parent = TASK_FILE.getParent();
+        Path temporaryFile = null;
+        try {
+            if (Files.exists(parent) && !Files.isDirectory(parent)) {
+                throw new IOException("The data path is not a directory.");
+            }
+            Files.createDirectories(parent);
+            temporaryFile = Files.createTempFile(parent, "oreo", ".tmp");
+            List<String> lines = tasks.stream().map(Oreo::formatTask).toList();
+            Files.write(temporaryFile, lines, StandardCharsets.UTF_8,
+                    StandardOpenOption.TRUNCATE_EXISTING);
+            try {
+                Files.move(temporaryFile, TASK_FILE, StandardCopyOption.ATOMIC_MOVE,
+                        StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException | UnsupportedOperationException e) {
+                Files.move(temporaryFile, TASK_FILE, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } catch (IOException | SecurityException e) {
+            System.err.println("Warning: unable to save tasks: " + e.getMessage());
+        } finally {
+            if (temporaryFile != null) {
+                try {
+                    Files.deleteIfExists(temporaryFile);
+                } catch (IOException ignored) {
+                    // The temporary file is harmless and can be cleaned up later.
+                }
+            }
+        }
+    }
+
+    /** Encodes task fields so separators and unusual user text cannot corrupt the file. */
+    private static String formatTask(Task task) {
+        String type = task.getTaskType().getMarker();
+        String status = task.getStatusIcon().equals("X") ? "1" : "0";
+        StringBuilder line = new StringBuilder(type).append('|').append(status).append('|')
+                .append(encode(task.description));
+        if (task instanceof Deadline deadline) {
+            line.append('|').append(encode(deadline.getBy()));
+        } else if (task instanceof Event event) {
+            line.append('|').append(encode(event.getFrom())).append('|')
+                    .append(encode(event.getTo()));
+        }
+        return line.toString();
+    }
+
+    private static String encode(String value) {
+        return Base64.getEncoder().encodeToString(value.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /** Loads previously saved tasks, ignoring malformed lines and filesystem failures. */
+    private static List<Task> loadTasks() {
+        List<Task> tasks = new ArrayList<>();
+        if (!Files.isRegularFile(TASK_FILE)) {
+            return tasks;
+        }
+        try {
+            for (String line : Files.readAllLines(TASK_FILE)) {
+                Task task = parseStoredTask(line);
+                if (task != null) {
+                    tasks.add(task);
+                }
+            }
+        } catch (IOException | SecurityException e) {
+            System.err.println("Warning: unable to load tasks: " + e.getMessage());
+        }
+        return tasks;
+    }
+
+    private static Task parseStoredTask(String line) {
+        String[] fields = line.split("\\|", -1);
+        try {
+            if (fields.length < 3 || !fields[1].matches("[01]")) {
+                return parseLegacyTask(line);
+            }
+            String description = new String(Base64.getDecoder().decode(fields[2]), StandardCharsets.UTF_8);
+            Task task;
+            if (fields[0].equals("T") && fields.length == 3) {
+                task = new Todo(description);
+            } else if (fields[0].equals("D") && fields.length == 4) {
+                task = new Deadline(description, decode(fields[3]));
+            } else if (fields[0].equals("E") && fields.length == 5) {
+                task = new Event(description, decode(fields[3]), decode(fields[4]));
+            } else {
+                return null;
+            }
+            if (fields[1].equals("1")) {
+                task.markAsDone();
+            }
+            return task;
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    private static String decode(String value) {
+        return new String(Base64.getDecoder().decode(value), StandardCharsets.UTF_8);
+    }
+
+    /** Reconstructs one task from the display format written by {@link #saveTasks(List)}. */
+    private static Task parseLegacyTask(String line) {
+        if (line.length() < 7 || line.charAt(0) != '[' || line.charAt(2) != ']'
+                || line.charAt(3) != '[') {
+            return null;
+        }
+        boolean done = line.startsWith("[T][X]") || line.startsWith("[D][X]")
+                || line.startsWith("[E][X]");
+        String content = line.substring(6).trim();
+        try {
+            Task task;
+            if (line.startsWith("[T]")) {
+                task = new Todo(content);
+            } else if (line.startsWith("[D]")) {
+                int marker = content.lastIndexOf(" (by: ");
+                if (marker < 1 || !content.endsWith(")")) {
+                    return null;
+                }
+                task = new Deadline(content.substring(0, marker),
+                        content.substring(marker + 6, content.length() - 1));
+            } else if (line.startsWith("[E]")) {
+                int marker = content.lastIndexOf(" (from: ");
+                int separator = content.lastIndexOf(" to: ");
+                if (marker < 1 || separator < marker || !content.endsWith(")")) {
+                    return null;
+                }
+                task = new Event(content.substring(0, marker),
+                        content.substring(marker + 8, separator),
+                        content.substring(separator + 5, content.length() - 1));
+            } else {
+                return null;
+            }
+            if (done) {
+                task.markAsDone();
+            }
+            return task;
+        } catch (RuntimeException e) {
+            return null;
+        }
     }
 }

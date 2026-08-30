@@ -8,17 +8,19 @@ public class Todo extends Task {
     /**
      * Creates an incomplete to-do task.
      *
-     * @param description the task description
+     * @param description The task description.
      */
     public Todo(String description) {
         super(description);
     }
 
+    /** Returns the to-do task category. */
     @Override
     public TaskType getTaskType() {
         return TaskType.TODO;
     }
 
+    /** Returns the formatted to-do task text. */
     @Override
     public String toString() {
         return super.toString();

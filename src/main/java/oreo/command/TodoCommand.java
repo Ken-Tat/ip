@@ -1,6 +1,7 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.OreoException;
+import oreo.core.Parser;
 import oreo.model.Task;
 import oreo.model.Todo;
 /** Command that adds a to-do task. */
@@ -13,6 +14,7 @@ public class TodoCommand extends AddTaskCommand {
         this.description = description;
     }
 
+    /** Parses the command argument into a to-do task. */
     @Override
     protected Task createTask() throws OreoException {
         return new Todo(parser.todoDescription(description));

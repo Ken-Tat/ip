@@ -53,6 +53,7 @@ public class TaskList implements Iterable<Task> {
         return tasks.stream();
     }
 
+    /** Returns an iterator over the tasks in list order. */
     @Override
     public Iterator<Task> iterator() {
         return tasks.iterator();

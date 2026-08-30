@@ -9,11 +9,13 @@ public class UnmarkCommand extends TaskStatusCommand {
         super(taskNumber, parser);
     }
 
+    /** Marks the supplied task as incomplete. */
     @Override
     protected void update(Task task) {
         task.markAsNotDone();
     }
 
+    /** Returns the incomplete-status confirmation message. */
     @Override
     protected String message() {
         return "OK, I've marked this task as not done yet:";

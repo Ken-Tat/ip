@@ -1,6 +1,5 @@
 package oreo.storage;
 
-import oreo.model.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -10,6 +9,12 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+
+import oreo.model.Deadline;
+import oreo.model.Event;
+import oreo.model.Task;
+import oreo.model.TaskList;
+import oreo.model.Todo;
 
 /** Loads and saves tasks without exposing file-format details to the command loop. */
 public class Storage {
@@ -99,7 +104,9 @@ public class Storage {
             } else {
                 return null;
             }
-            if (fields[1].equals("1")) task.markAsDone();
+            if (fields[1].equals("1")) {
+                task.markAsDone();
+            }
             return task;
         } catch (IllegalArgumentException e) {
             return null;
@@ -108,7 +115,9 @@ public class Storage {
 
     private Task parseLegacyTask(String line) {
         if (line.length() < 7 || line.charAt(0) != '[' || line.charAt(2) != ']'
-                || line.charAt(3) != '[') return null;
+                || line.charAt(3) != '[') {
+            return null;
+        }
         boolean done = line.startsWith("[T][X]") || line.startsWith("[D][X]") || line.startsWith("[E][X]");
         String content = line.substring(6).trim();
         try {
@@ -117,16 +126,24 @@ public class Storage {
                 task = new Todo(content);
             } else if (line.startsWith("[D]")) {
                 int marker = content.lastIndexOf(" (by: ");
-                if (marker < 1 || !content.endsWith(")")) return null;
+                if (marker < 1 || !content.endsWith(")")) {
+                    return null;
+                }
                 task = new Deadline(content.substring(0, marker), content.substring(marker + 6, content.length() - 1));
             } else if (line.startsWith("[E]")) {
                 int marker = content.lastIndexOf(" (from: ");
                 int separator = content.lastIndexOf(" to: ");
-                if (marker < 1 || separator < marker || !content.endsWith(")")) return null;
+                if (marker < 1 || separator < marker || !content.endsWith(")")) {
+                    return null;
+                }
                 task = new Event(content.substring(0, marker), content.substring(marker + 8, separator),
                         content.substring(separator + 5, content.length() - 1));
-            } else return null;
-            if (done) task.markAsDone();
+            } else {
+                return null;
+            }
+            if (done) {
+                task.markAsDone();
+            }
             return task;
         } catch (RuntimeException e) {
             return null;

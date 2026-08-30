@@ -1,6 +1,7 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.OreoException;
+import oreo.core.Parser;
 import oreo.model.Event;
 import oreo.model.Task;
 /** Command that adds an event task. */
@@ -13,6 +14,7 @@ public class EventCommand extends AddTaskCommand {
         this.command = command;
     }
 
+    /** Parses the command argument into an event task. */
     @Override
     protected Task createTask() throws OreoException {
         String[] parts = parser.eventParts(command);

@@ -19,7 +19,11 @@ public abstract class Task {
         this.status = TaskStatus.TODO;
     }
 
-    /** Returns the category used to display this task. */
+    /**
+     * Returns the category used to display this task.
+     *
+     * @return this task's category
+     */
     public abstract TaskType getTaskType();
 
     /** Returns the task description for persistence and other collaborators. */

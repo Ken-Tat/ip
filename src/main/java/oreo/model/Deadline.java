@@ -14,8 +14,8 @@ public class Deadline extends Task {
     /**
      * Creates an incomplete deadline task.
      *
-     * @param description the task description
-     * @param by the deadline text entered by the user
+     * @param description The task description.
+     * @param by The deadline text entered by the user.
      */
     public Deadline(String description, String by) {
         super(description);
@@ -23,6 +23,7 @@ public class Deadline extends Task {
         this.byText = by;
     }
 
+    /** Returns the deadline task category. */
     @Override
     public TaskType getTaskType() {
         return TaskType.DEADLINE;
@@ -34,16 +35,18 @@ public class Deadline extends Task {
     }
 
     /** Returns the parsed deadline, or {@code null} for legacy free-form text. */
-    public LocalDateTime getByDateTime() { return byDateTime; }
+    public LocalDateTime getByDateTime() {
+        return byDateTime;
+    }
 
     /** Returns whether this parsed deadline falls on the supplied date. */
     public boolean occursOn(LocalDate date) {
         return byDateTime != null && byDateTime.toLocalDate().equals(date);
     }
 
+    /** Returns the formatted deadline task text. */
     @Override
     public String toString() {
         return super.toString() + " (by: " + DateTimeParser.format(byDateTime, byText) + ")";
     }
 }
-

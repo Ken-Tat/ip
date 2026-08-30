@@ -80,3 +80,34 @@ shadowJar`.
 - ChatGPT/Codex was used mostly for the code in the submission following the wk 3 iP Increments as instructed
 - Review was done making use of the test scripts and reviewed manually by myself
 - made use of google AI to help understand some code I was unfamiliar with as well.
+
+#### Handling merge conflicts
+
+During Week 3, some merge conflicts were painful to resolve, especially when
+two branches modified the same part of a Java file. The following process can
+make conflict resolution safer:
+
+1. Save or commit local work before starting a merge, then update the target
+   branch from `origin`.
+2. Read every conflict marker (`<<<<<<<`, `=======`, and `>>>>>>>`) and compare
+   both versions. Do not blindly choose “ours” or “theirs”.
+3. Keep the intended parts from both branches, remove all conflict markers,
+   and check that the resulting code still follows the project coding
+   standard.
+4. Compile the application and run the unit and UI tests before committing the
+   merge. Review the final diff as an additional check.
+
+Conflicts can also be reduced by planning the branch structure more carefully:
+
+- Merge foundational changes, such as package moves or large refactorings,
+  before feature branches that add or modify code in those files.
+- Avoid parallel branches changing the same core files at the same time. For
+  example, a feature branch should wait for a package or coding-standard
+  refactor to be merged, or be rebased onto it first.
+- Keep commits small and focused, separating refactoring, feature work, tests,
+  and documentation. This makes changes easier to review and cherry-pick.
+- Prefer adding new classes or methods over repeatedly editing the same large
+  file, and coordinate ownership of shared files such as `TaskList.java`.
+- Merge short-lived branches regularly and rebase a feature branch before
+  opening a pull request so conflicts are discovered while the relevant code
+  is still familiar.

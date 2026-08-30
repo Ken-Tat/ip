@@ -1,15 +1,21 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.AppContext;
+import oreo.core.Parser;
 /** Command that displays the goodbye message and ends the application. */
 public class ExitCommand extends Command {
-    public ExitCommand(Parser parser) { super(parser); }
-
-    @Override
-    public void execute(AppContext context) {
-        context.ui.showGoodbye();
+    /** Creates a command that exits the application. */
+    public ExitCommand(Parser parser) {
+        super(parser);
     }
 
+    /** Displays the goodbye message. */
+    @Override
+    public void execute(AppContext context) {
+        context.getUi().showGoodbye();
+    }
+
+    /** Returns {@code true} because this command ends the application. */
     @Override
     public boolean isExit() {
         return true;

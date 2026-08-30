@@ -1,7 +1,10 @@
 package oreo;
 
 import oreo.command.Command;
-import oreo.core.*;
+import oreo.core.AppContext;
+import oreo.core.CommandFactory;
+import oreo.core.OreoException;
+import oreo.core.Parser;
 import oreo.model.TaskList;
 import oreo.storage.Storage;
 import oreo.ui.Ui;

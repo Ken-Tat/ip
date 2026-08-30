@@ -1,6 +1,8 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.AppContext;
+import oreo.core.OreoException;
+import oreo.core.Parser;
 import oreo.model.Task;
 /** Shared workflow for commands that change one task's completion status. */
 public abstract class TaskStatusCommand extends Command {
@@ -18,11 +20,12 @@ public abstract class TaskStatusCommand extends Command {
     /** Returns the confirmation text for the status change. */
     protected abstract String message();
 
+    /** Updates, persists, and displays the selected task's new status. */
     @Override
     public void execute(AppContext context) throws OreoException {
-        Task task = context.tasks.get(parser.taskIndex(taskNumber, context.tasks.size()));
+        Task task = context.getTasks().get(parser.taskIndex(taskNumber, context.getTasks().size()));
         update(task);
-        context.storage.save(context.tasks);
-        context.ui.showSuccess(message(), task);
+        context.getStorage().save(context.getTasks());
+        context.getUi().showSuccess(message(), task);
     }
 }

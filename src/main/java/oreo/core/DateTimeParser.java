@@ -17,7 +17,8 @@ public final class DateTimeParser {
     private static final DateTimeFormatter SLASH_DATE_TIME =
             DateTimeFormatter.ofPattern("d/M/yyyy HHmm");
 
-    private DateTimeParser() { }
+    private DateTimeParser() {
+    }
 
     /** Parses an ISO calendar date such as {@code 2019-10-15}. */
     public static LocalDate parseDate(String text) {
@@ -45,7 +46,9 @@ public final class DateTimeParser {
 
     /** Formats parsed values while leaving old free-form values unchanged. */
     public static String format(LocalDateTime value, String original) {
-        if (value == null) return original;
+        if (value == null) {
+            return original;
+        }
         return value.toLocalTime().equals(LocalTime.MIDNIGHT)
                 ? value.format(DISPLAY_DATE)
                 : value.format(DISPLAY_DATE_TIME);

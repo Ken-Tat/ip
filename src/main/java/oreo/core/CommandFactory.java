@@ -1,6 +1,17 @@
 package oreo.core;
 
-import oreo.command.*;
+import oreo.command.Command;
+import oreo.command.DeadlineCommand;
+import oreo.command.DeleteCommand;
+import oreo.command.EmptyCommand;
+import oreo.command.EventCommand;
+import oreo.command.ExitCommand;
+import oreo.command.ListCommand;
+import oreo.command.MarkCommand;
+import oreo.command.OnDateCommand;
+import oreo.command.TodoCommand;
+import oreo.command.UnknownCommand;
+import oreo.command.UnmarkCommand;
 /** Creates executable commands from parsed command types and input. */
 public class CommandFactory {
     /** Builds the command represented by the supplied input and command type. */
@@ -20,4 +31,3 @@ public class CommandFactory {
         };
     }
 }
-

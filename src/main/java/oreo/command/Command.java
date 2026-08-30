@@ -1,6 +1,7 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.AppContext;
+import oreo.core.OreoException;
 /** A user command that can be executed against the task application state. */
 public abstract class Command {
     /** Shared parser used by commands that need argument validation. */
@@ -11,7 +12,12 @@ public abstract class Command {
         this.parser = parser;
     }
 
-    /** Executes this command. */
+    /**
+     * Executes this command against the supplied application context.
+     *
+     * @param context the application state and collaborators used by the command
+     * @throws OreoException when the command input is invalid
+     */
     public abstract void execute(AppContext context) throws OreoException;
 
     /** Returns whether this command ends the application. */

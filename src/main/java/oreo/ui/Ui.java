@@ -1,9 +1,13 @@
 package oreo.ui;
 
-import oreo.model.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
+
+import oreo.model.Deadline;
+import oreo.model.Event;
+import oreo.model.Task;
+import oreo.model.TaskList;
 
 /** Handles messages that greet the user and close the application. */
 public class Ui {
@@ -107,7 +111,9 @@ public class Ui {
                 System.out.println((++count) + "." + task);
             }
         }
-        if (count == 0) System.out.println("No deadlines or events on this date.");
+        if (count == 0) {
+            System.out.println("No deadlines or events on this date.");
+        }
         showLine();
     }
 }

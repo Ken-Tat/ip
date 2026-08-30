@@ -1,6 +1,7 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.OreoException;
+import oreo.core.Parser;
 import oreo.model.Deadline;
 import oreo.model.Task;
 /** Command that adds a deadline task. */
@@ -13,6 +14,7 @@ public class DeadlineCommand extends AddTaskCommand {
         this.command = command;
     }
 
+    /** Parses the command argument into a deadline task. */
     @Override
     protected Task createTask() throws OreoException {
         String[] parts = parser.deadlineParts(command);

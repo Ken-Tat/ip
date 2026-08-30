@@ -16,9 +16,9 @@ public class Event extends Task {
     /**
      * Creates an incomplete event task.
      *
-     * @param description the task description
-     * @param from the event start text entered by the user
-     * @param to the event end text entered by the user
+     * @param description The task description.
+     * @param from The event start text entered by the user.
+     * @param to The event end text entered by the user.
      */
     public Event(String description, String from, String to) {
         super(description);
@@ -28,6 +28,7 @@ public class Event extends Task {
         this.toText = to;
     }
 
+    /** Returns the event task category. */
     @Override
     public TaskType getTaskType() {
         return TaskType.EVENT;
@@ -49,10 +50,10 @@ public class Event extends Task {
                 || (toDateTime != null && toDateTime.toLocalDate().equals(date));
     }
 
+    /** Returns the formatted event task text. */
     @Override
     public String toString() {
         return super.toString() + " (from: " + DateTimeParser.format(fromDateTime, fromText)
                 + " to: " + DateTimeParser.format(toDateTime, toText) + ")";
     }
 }
-

@@ -6,7 +6,9 @@ import oreo.core.Parser;
 import oreo.model.Task;
 /** Shared execution workflow for commands that add a task. */
 public abstract class AddTaskCommand extends Command {
-    protected AddTaskCommand(Parser parser) { super(parser); }
+    protected AddTaskCommand(Parser parser) {
+        super(parser);
+    }
 
     /** Creates, stores, and displays the task produced by this command. */
     @Override

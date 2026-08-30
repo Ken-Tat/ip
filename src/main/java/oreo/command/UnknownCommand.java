@@ -1,9 +1,13 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.AppContext;
+import oreo.core.OreoException;
+import oreo.core.Parser;
 /** Command representing input that is not recognized. */
 public class UnknownCommand extends Command {
-    public UnknownCommand(Parser parser) { super(parser); }
+    public UnknownCommand(Parser parser) {
+        super(parser);
+    }
 
     @Override
     public void execute(AppContext context) throws OreoException {

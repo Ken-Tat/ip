@@ -1,9 +1,12 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.AppContext;
+import oreo.core.Parser;
 /** Command that displays the current task list. */
 public class ListCommand extends Command {
-    public ListCommand(Parser parser) { super(parser); }
+    public ListCommand(Parser parser) {
+        super(parser);
+    }
 
     @Override
     public void execute(AppContext context) {

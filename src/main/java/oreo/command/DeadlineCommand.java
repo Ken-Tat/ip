@@ -1,6 +1,7 @@
 package oreo.command;
 
-import oreo.core.*;
+import oreo.core.OreoException;
+import oreo.core.Parser;
 import oreo.model.Deadline;
 import oreo.model.Task;
 /** Command that adds a deadline task. */

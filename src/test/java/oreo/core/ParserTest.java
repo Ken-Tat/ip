@@ -65,6 +65,12 @@ class ParserTest {
         assertEquals("buy milk", parser.argument("todo buy milk", "todo"));
     }
 
+    @Test
+    void findCommand_isRecognised() {
+        assertEquals(CommandType.FIND, CommandType.fromInput("find book"));
+        assertEquals(CommandType.FIND, CommandType.fromInput("find"));
+    }
+
     private void assertUsageError(ThrowingOperation operation, String message) {
         OreoException exception = assertThrows(OreoException.class, operation::run);
         assertEquals(message, exception.getMessage());

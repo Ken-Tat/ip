@@ -13,6 +13,64 @@
 
 ## Test cases
 
+### Test: Find tasks by description keyword
+
+**Aim:** Confirm that `find KEYWORD` displays matching tasks in original order, ignores letter case, and reports no matches.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Input:**
+```text
+todo read book
+deadline return book /by 2019-06-06
+find BOOK
+find spaceship
+find
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[D][ ] return book (by: Jun 06 2019)
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the matching tasks in your list:
+1.[T][ ] read book
+2.[D][ ] return book (by: Jun 06 2019)
+____________________________________________
+____________________________________________
+No matching tasks found.
+____________________________________________
+____________________________________________
+  Oh My God! Use: find KEYWORD
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+```
+
 ### Test: Query tasks by date
 
 **Aim:** Confirm that `on YYYY-MM-DD` finds deadlines and events on a date and handles an invalid date.

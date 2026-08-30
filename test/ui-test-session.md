@@ -1,6 +1,109 @@
 # UI test session
 
-## 1. Query tasks by date
+## 1. Find tasks by description keyword
+
+**Aim:** Confirm that `find KEYWORD` displays matching tasks in original order, ignores letter case, and reports no matches.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Console input:**
+```text
+todo read book
+deadline return book /by 2019-06-06
+find BOOK
+find spaceship
+find
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[D][ ] return book (by: Jun 06 2019)
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the matching tasks in your list:
+1.[T][ ] read book
+2.[D][ ] return book (by: Jun 06 2019)
+____________________________________________
+____________________________________________
+No matching tasks found.
+____________________________________________
+____________________________________________
+  Oh My God! Use: find KEYWORD
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[D][ ] return book (by: Jun 06 2019)
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the matching tasks in your list:
+1.[T][ ] read book
+2.[D][ ] return book (by: Jun 06 2019)
+____________________________________________
+____________________________________________
+No matching tasks found.
+____________________________________________
+____________________________________________
+  Oh My God! Use: find KEYWORD
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+## 2. Query tasks by date
 
 **Aim:** Confirm that `on YYYY-MM-DD` finds deadlines and events on a date and handles an invalid date.
 
@@ -96,7 +199,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 2. Parse and format calendar dates and times
+## 3. Parse and format calendar dates and times
 
 **Aim:** Confirm that supported date inputs are stored as calendar values and displayed in a different human-readable format.
 
@@ -185,7 +288,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 3. Greeting and graceful exit
+## 4. Greeting and graceful exit
 
 **Aim:** Confirm that Oreo displays its greeting and exits with its goodbye message when the user enters `bye`.
 
@@ -241,7 +344,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 4. Recover from invalid commands without changing state
+## 5. Recover from invalid commands without changing state
 
 **Aim:** Confirm that an empty to-do description and an unknown command produce exception-based error messages, while valid tasks remain intact.
 
@@ -331,7 +434,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 5. Reject invalid task numbers without changing task state
+## 6. Reject invalid task numbers without changing task state
 
 **Aim:** Confirm that invalid task numbers, including an out-of-range delete command, are handled safely and leave the task list unchanged.
 
@@ -421,7 +524,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 6. Add and list every task subtype
+## 7. Add and list every task subtype
 
 **Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and that the `TaskType` enum preserves their existing display markers through the shared `Task` list.
 
@@ -523,7 +626,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 7. Mark and unmark a task
+## 8. Mark and unmark a task
 
 **Aim:** Confirm that marking a task as done and then unmarking it updates its status without changing the task description or list position.
 
@@ -617,7 +720,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 8. Load tasks saved by a previous run
+## 9. Load tasks saved by a previous run
 
 **Aim:** Confirm that a task saved in one run is loaded and listed when Oreo starts again.
 
@@ -682,7 +785,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 9. Delete tasks and reject invalid delete numbers
+## 10. Delete tasks and reject invalid delete numbers
 
 **Aim:** Confirm that deletion removes the selected task and re-numbers the list, while missing, zero, out-of-range, and empty-list delete commands leave the list unchanged.
 
@@ -826,4 +929,4 @@ ____________________________________________
 
 **Result:** PASS
 
-All 9 test case(s) passed.
+All 10 test case(s) passed.

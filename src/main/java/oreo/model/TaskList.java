@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Stream;
+import java.util.Locale;
 
 /**
  * Owns the in-memory collection of tasks and provides the operations used by
@@ -51,6 +52,20 @@ public class TaskList implements Iterable<Task> {
     /** Provides a read-only traversal view for persistence and display. */
     public Stream<Task> stream() {
         return tasks.stream();
+    }
+
+    /**
+     * Finds tasks whose descriptions contain the supplied keyword.
+     * Matching ignores letter case and preserves the original task order.
+     *
+     * @param keyword the text to search for
+     * @return a new list containing matching tasks
+     */
+    public TaskList find(String keyword) {
+        String searchText = keyword.toLowerCase(Locale.ROOT);
+        return new TaskList(tasks.stream()
+                .filter(task -> task.getDescription().toLowerCase(Locale.ROOT).contains(searchText))
+                .toList());
     }
 
     /** Returns an iterator over the tasks in list order. */

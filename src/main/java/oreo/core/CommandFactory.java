@@ -19,6 +19,7 @@ public class CommandFactory {
         return switch (type) {
         case BYE -> new ExitCommand(parser);
         case LIST -> new ListCommand(parser);
+        case FIND -> new FindCommand(parser.argument(input, "find"), parser);
         case MARK -> new MarkCommand(parser.argument(input, "mark"), parser);
         case UNMARK -> new UnmarkCommand(parser.argument(input, "unmark"), parser);
         case DELETE -> new DeleteCommand(parser.argument(input, "delete"), parser);

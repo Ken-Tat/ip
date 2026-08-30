@@ -5,6 +5,7 @@ package oreo.core;
 public enum CommandType {
     BYE,
     LIST,
+    FIND,
     MARK,
     UNMARK,
     DELETE,
@@ -21,6 +22,8 @@ public enum CommandType {
             return BYE;
         } else if (input.equals("list")) {
             return LIST;
+        } else if (input.equals("find") || input.startsWith("find ")) {
+            return FIND;
         } else if (input.equals("mark") || input.startsWith("mark ")) {
             return MARK;
         } else if (input.equals("unmark") || input.startsWith("unmark ")) {

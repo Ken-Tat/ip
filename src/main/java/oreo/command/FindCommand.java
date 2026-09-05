@@ -20,6 +20,6 @@ public class FindCommand extends Command {
         if (keyword.isEmpty()) {
             throw new OreoException("Use: find KEYWORD");
         }
-        context.ui.showMatchingTasks(context.tasks.find(keyword));
+        context.getUi().showMatchingTasks(context.getTasks().find(keyword));
     }
 }

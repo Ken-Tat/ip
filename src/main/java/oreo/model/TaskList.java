@@ -4,8 +4,8 @@ package oreo.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 import java.util.Locale;
+import java.util.stream.Stream;
 
 /**
  * Owns the in-memory collection of tasks and provides the operations used by

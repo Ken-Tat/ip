@@ -11,7 +11,7 @@ class TaskListTest {
         TaskList tasks = new TaskList();
         tasks.add(new Todo("read book"));
         tasks.add(new Todo("buy milk"));
-        tasks.add(new Deadline("return BOOK", java.time.LocalDate.of(2019, 6, 6)));
+        tasks.add(new Deadline("return BOOK", "2019-06-06"));
 
         TaskList matches = tasks.find("book");
 

@@ -1,8 +1,9 @@
 package oreo.model;
 
-import oreo.core.DateTimeParser;
-import java.time.LocalDateTime;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import oreo.core.DateTimeParser;
 
 /**
  * Represents a task that should be completed by a specified date or time.

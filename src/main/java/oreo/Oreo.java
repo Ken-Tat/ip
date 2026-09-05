@@ -1,5 +1,7 @@
 package oreo;
 
+import java.nio.file.Path;
+
 import oreo.command.Command;
 import oreo.core.AppContext;
 import oreo.core.CommandFactory;
@@ -8,7 +10,6 @@ import oreo.core.Parser;
 import oreo.model.TaskList;
 import oreo.storage.Storage;
 import oreo.ui.Ui;
-import java.nio.file.Path;
 
 /**
  * A simple command-line chatbot that stores and displays user-entered tasks.

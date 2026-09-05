@@ -1,10 +1,11 @@
 package oreo.command;
 
+import java.time.LocalDate;
+
 import oreo.core.AppContext;
 import oreo.core.DateTimeParser;
 import oreo.core.OreoException;
 import oreo.core.Parser;
-import java.time.LocalDate;
 
 /** Command that displays deadlines and events occurring on a date. */
 public class OnDateCommand extends Command {

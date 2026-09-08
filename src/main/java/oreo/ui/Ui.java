@@ -76,7 +76,7 @@ public class Ui {
         } else {
             System.out.println("Here are the tasks in your list:");
             for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + "." + tasks.get(i));
+                System.out.println((i + 1) + ". " + tasks.get(i));
             }
         }
         showLine();
@@ -90,7 +90,7 @@ public class Ui {
         } else {
             System.out.println("Here are the matching tasks in your list:");
             for (int i = 0; i < tasks.size(); i++) {
-                System.out.println((i + 1) + "." + tasks.get(i));
+                System.out.println((i + 1) + ". " + tasks.get(i));
             }
         }
         showLine();
@@ -122,7 +122,7 @@ public class Ui {
             boolean occurs = task instanceof Deadline deadline && deadline.occursOn(date)
                     || task instanceof Event event && event.occursOn(date);
             if (occurs) {
-                System.out.println((++count) + "." + task);
+                System.out.println((++count) + ". " + task);
             }
         }
         if (count == 0) {

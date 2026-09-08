@@ -56,6 +56,24 @@ public class Ui {
                 + "____________________________________________ \n");
     }
 
+    /** Displays every supported command and its expected usage. */
+    public void showHelp() {
+        showLine();
+        System.out.println("Here are the commands you can use:");
+        System.out.println("- help: Shows this help message.");
+        System.out.println("- list: Lists all tasks.");
+        System.out.println("- todo DESCRIPTION: Adds a to-do task.");
+        System.out.println("- deadline DESCRIPTION /by DATE: Adds a task with a deadline.");
+        System.out.println("- event DESCRIPTION /from START /to END: Adds an event.");
+        System.out.println("- find KEYWORD: Finds tasks by description.");
+        System.out.println("- on DATE: Lists tasks occurring on a date.");
+        System.out.println("- mark TASK_NUMBER: Marks a task as done.");
+        System.out.println("- unmark TASK_NUMBER: Marks a task as not done.");
+        System.out.println("- delete TASK_NUMBER: Deletes a task.");
+        System.out.println("- bye: Exits Oreo.");
+        showLine();
+    }
+
     /** Displays a confirmation for a task status change. */
     public void showSuccess(String message, Task task) {
         System.out.println("____________________________________________\n" + message + "\n"

@@ -4,6 +4,7 @@ package oreo.core;
 /** Represents a command that Oreo can recognize from user input. */
 public enum CommandType {
     BYE,
+    HELP,
     LIST,
     FIND,
     MARK,
@@ -20,6 +21,8 @@ public enum CommandType {
     public static CommandType fromInput(String input) {
         if (input.equals("bye")) {
             return BYE;
+        } else if (input.equals("help")) {
+            return HELP;
         } else if (input.equals("list")) {
             return LIST;
         } else if (input.equals("find") || input.startsWith("find ")) {

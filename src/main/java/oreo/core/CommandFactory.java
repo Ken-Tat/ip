@@ -7,6 +7,7 @@ import oreo.command.EmptyCommand;
 import oreo.command.EventCommand;
 import oreo.command.ExitCommand;
 import oreo.command.FindCommand;
+import oreo.command.HelpCommand;
 import oreo.command.ListCommand;
 import oreo.command.MarkCommand;
 import oreo.command.OnDateCommand;
@@ -19,6 +20,7 @@ public class CommandFactory {
     public Command create(CommandType type, String input, Parser parser) throws OreoException {
         return switch (type) {
             case BYE -> new ExitCommand(parser);
+            case HELP -> new HelpCommand(parser);
             case LIST -> new ListCommand(parser);
             case FIND -> new FindCommand(parser.argument(input, "find"), parser);
             case MARK -> new MarkCommand(parser.argument(input, "mark"), parser);

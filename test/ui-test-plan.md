@@ -15,6 +15,53 @@
 
 ## Test cases
 
+### Test: Display command help
+
+**Aim:** Confirm that `help` lists all supported commands and their usage.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Input:**
+```text
+help
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Here are the commands you can use:
+- help: Shows this help message.
+- list: Lists all tasks.
+- todo DESCRIPTION: Adds a to-do task.
+- deadline DESCRIPTION /by DATE: Adds a task with a deadline.
+- event DESCRIPTION /from START /to END: Adds an event.
+- find KEYWORD: Finds tasks by description.
+- on DATE: Lists tasks occurring on a date.
+- mark TASK_NUMBER: Marks a task as done.
+- unmark TASK_NUMBER: Marks a task as not done.
+- delete TASK_NUMBER: Deletes a task.
+- bye: Exits Oreo.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+```
+
 ### Test: Find tasks by description keyword
 
 **Aim:** Confirm that `find KEYWORD` displays matching tasks in original order, ignores letter case, and reports no matches.

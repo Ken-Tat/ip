@@ -1,0 +1,51 @@
+package oreo.ui;
+
+import java.io.IOException;
+import java.util.Collections;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+
+/** Represents one speaker message in the conversation. */
+public class DialogBox extends HBox {
+    @FXML private Label dialog;
+    @FXML private ImageView displayPicture;
+
+    private DialogBox(String text, Image image) {
+        try {
+            FXMLLoader loader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
+            loader.setController(this);
+            loader.setRoot(this);
+            loader.load();
+        } catch (IOException e) {
+            throw new IllegalStateException("Unable to load a dialog box.", e);
+        }
+        dialog.setText(text);
+        displayPicture.setImage(image);
+    }
+
+    /** Creates a user message. */
+    public static DialogBox user(String text, Image image) {
+        return new DialogBox(text, image);
+    }
+
+    /** Creates a reply message with the speaker on the left. */
+    public static DialogBox reply(String text, Image image) {
+        DialogBox box = new DialogBox(text, image);
+        ObservableList<Node> children = FXCollections.observableArrayList(box.getChildren());
+        Collections.reverse(children);
+        box.getChildren().setAll(children);
+        box.setAlignment(Pos.TOP_LEFT);
+        box.dialog.getStyleClass().add("reply-label");
+        box.displayPicture.setScaleX(-1);
+        return box;
+    }
+}

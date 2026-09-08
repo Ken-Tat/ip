@@ -20,6 +20,9 @@ repositories {
 }
 
 dependencies {
+    String javaFxVersion = '17.0.7'
+    implementation("org.openjfx:javafx-controls:${javaFxVersion}:mac")
+    implementation("org.openjfx:javafx-fxml:${javaFxVersion}:mac")
     String jUnitVersion = '5.14.4'
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:${jUnitVersion}"
@@ -43,7 +46,7 @@ test {
 }
 
 application {
-    mainClass = 'oreo.Oreo'
+    mainClass = 'oreo.ui.Launcher'
 }
 
 jar {
@@ -64,4 +67,5 @@ shadowJar {
 
 run {
     standardInput = System.in
+    jvmArgs '--enable-native-access=javafx.graphics'
 }

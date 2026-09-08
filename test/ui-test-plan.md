@@ -2,6 +2,8 @@
 
 ## Notes
 
+- Task lists display a space after each task number, for example `1. [T][ ] groceries`.
+
 - Run this plan from the repository root with Java 25 selected: `sdk use java 25.0.3.fx-zulu`, then `python3 .codex/skills/test-ui/scripts/run_ui_tests.py`.
 - If `sdk` is unavailable in Bash on macOS, run the plan through Zsh instead: `zsh -lic 'sdk use java 25.0.3.fx-zulu && cd /Users/tat/NUS/ip && python3 .codex/skills/test-ui/scripts/run_ui_tests.py'`.
 - Each test command compiles the current Java source before running it, so the test checks the version currently in the working tree.
@@ -56,8 +58,8 @@ Now you have 2 tasks in the list.
 ____________________________________________
 ____________________________________________
 Here are the matching tasks in your list:
-1.[T][ ] read book
-2.[D][ ] return book (by: Jun 06 2019)
+1. [T][ ] read book
+2. [D][ ] return book (by: Jun 06 2019)
 ____________________________________________
 ____________________________________________
 No matching tasks found.
@@ -113,8 +115,8 @@ Now you have 2 tasks in the list.
 ____________________________________________
 ____________________________________________
 Tasks occurring on Oct 15 2019:
-1.[D][ ] return book (by: Oct 15 2019)
-2.[E][ ] project meeting (from: Oct 15 2019 to: Oct 16 2019)
+1. [D][ ] return book (by: Oct 15 2019)
+2. [E][ ] project meeting (from: Oct 15 2019 to: Oct 16 2019)
 ____________________________________________
 ____________________________________________
   Oh My God! Use a date in yyyy-MM-dd format.
@@ -166,8 +168,8 @@ Now you have 2 tasks in the list.
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
-1.[D][ ] return book (by: Dec 02 2019 6:00PM)
-2.[D][ ] submit report (by: Oct 15 2019)
+1. [D][ ] return book (by: Dec 02 2019 6:00PM)
+2. [D][ ] submit report (by: Oct 15 2019)
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -250,7 +252,7 @@ ____________________________________________
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
-1.[T][ ] buy milk
+1. [T][ ] buy milk
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -301,7 +303,7 @@ ____________________________________________
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
-1.[T][ ] buy milk
+1. [T][ ] buy milk
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -356,9 +358,9 @@ Now you have 3 tasks in the list.
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
-1.[T][ ] read book
-2.[D][ ] return book (by: Sunday)
-3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+1. [T][ ] read book
+2. [D][ ] return book (by: Sunday)
+3. [E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -411,7 +413,7 @@ OK, I've marked this task as not done yet:
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
-1.[T][ ] buy milk
+1. [T][ ] buy milk
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -448,7 +450,7 @@ Let's get started shall we?
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
-1.[T][ ] buy milk
+1. [T][ ] buy milk
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -509,7 +511,7 @@ Now you have 1 tasks in the list.
 ____________________________________________
 ____________________________________________
 Here are the tasks in your list:
-1.[T][ ] return book
+1. [T][ ] return book
 ____________________________________________
 ____________________________________________
   Oh My God! Sooo which task is it?

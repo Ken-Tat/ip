@@ -7,17 +7,24 @@ public class Parser {
 
     /** Creates a parser using the supplied command factory. */
     public Parser(CommandFactory commandFactory) {
+        assert commandFactory != null : "A parser must have a command factory.";
         this.commandFactory = commandFactory;
     }
 
     /** Parses complete input into an executable command object. */
     public Command parse(String input) throws OreoException {
+        assert input != null : "The command loop must provide non-null input.";
         CommandType type = CommandType.fromInput(input);
-        return commandFactory.create(type, input, this);
+        Command command = commandFactory.create(type, input, this);
+        assert command != null : "Every command type must produce a command.";
+        return command;
     }
 
     /** Returns the argument following a command keyword, or an empty string. */
     public String argument(String input, String command) {
+        assert input != null && command != null : "Command parsing requires non-null text.";
+        assert input.equals(command) || input.startsWith(command + " ")
+                : "The input must begin with the command keyword.";
         if (input.length() == command.length()) {
             return "";
         }
@@ -64,6 +71,7 @@ public class Parser {
 
     /** Converts a one-based task number into a zero-based index. */
     public int taskIndex(String taskNumberText, int taskCount) throws OreoException {
+        assert taskCount >= 0 : "A task list cannot have a negative size.";
         if (taskNumberText.isEmpty()) {
             throw new OreoException("Sooo which task is it?");
         }
@@ -72,10 +80,11 @@ public class Parser {
             if (taskIndex < 0 || taskIndex >= taskCount) {
                 throw new OreoException("I can't find that task number.");
             }
+            assert taskIndex >= 0 && taskIndex < taskCount
+                    : "A successfully validated task number must be within the list.";
             return taskIndex;
         } catch (NumberFormatException e) {
             throw new OreoException("That is not a valid task number.");
         }
     }
 }
-

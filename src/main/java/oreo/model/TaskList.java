@@ -21,11 +21,13 @@ public class TaskList implements Iterable<Task> {
 
     /** Creates a task list containing the supplied tasks. */
     public TaskList(List<Task> tasks) {
+        assert tasks != null : "A task list must be initialized from a task collection.";
         this.tasks = new ArrayList<>(tasks);
     }
 
     /** Adds a task to the list. */
     public void add(Task task) {
+        assert task != null : "The task list must not contain null tasks.";
         tasks.add(task);
     }
 
@@ -36,6 +38,7 @@ public class TaskList implements Iterable<Task> {
 
     /** Returns the task at the zero-based index. */
     public Task get(int index) {
+        assert index >= 0 && index < tasks.size() : "The requested task index must be valid.";
         return tasks.get(index);
     }
 

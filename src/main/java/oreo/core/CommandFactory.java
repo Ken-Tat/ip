@@ -18,6 +18,8 @@ import oreo.command.UnmarkCommand;
 public class CommandFactory {
     /** Builds the command represented by the supplied input and command type. */
     public Command create(CommandType type, String input, Parser parser) throws OreoException {
+        assert type != null : "Command creation requires a classified command type.";
+        assert input != null && parser != null : "Command creation requires input and a parser.";
         return switch (type) {
             case BYE -> new ExitCommand(parser);
             case HELP -> new HelpCommand(parser);

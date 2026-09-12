@@ -9,6 +9,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Objects;
 
 import oreo.model.Deadline;
 import oreo.model.Event;
@@ -58,21 +59,18 @@ public class Storage {
 
     /** Loads valid saved tasks and ignores malformed records. */
     public List<Task> load() {
-        List<Task> tasks = new ArrayList<>();
         if (!Files.isRegularFile(taskFile)) {
-            return tasks;
+            return new ArrayList<>();
         }
         try {
-            for (String line : Files.readAllLines(taskFile)) {
-                Task task = parseTask(line);
-                if (task != null) {
-                    tasks.add(task);
-                }
-            }
+            return Files.readAllLines(taskFile).stream()
+                    .map(this::parseTask)
+                    .filter(Objects::nonNull)
+                    .toList();
         } catch (IOException | SecurityException e) {
             System.err.println("Warning: unable to load tasks: " + e.getMessage());
         }
-        return tasks;
+        return new ArrayList<>();
     }
 
     private String formatTask(Task task) {

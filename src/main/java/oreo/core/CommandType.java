@@ -19,31 +19,36 @@ public enum CommandType {
 
     /** Identifies the command represented by the complete user input. */
     public static CommandType fromInput(String input) {
-        if (input.equals("bye")) {
+        if (matches(input, "bye")) {
             return BYE;
-        } else if (input.equals("help")) {
+        } else if (matches(input, "help")) {
             return HELP;
-        } else if (input.equals("list")) {
+        } else if (matches(input, "list")) {
             return LIST;
-        } else if (input.equals("find") || input.startsWith("find ")) {
+        } else if (matches(input, "find")) {
             return FIND;
-        } else if (input.equals("mark") || input.startsWith("mark ")) {
+        } else if (matches(input, "mark")) {
             return MARK;
-        } else if (input.equals("unmark") || input.startsWith("unmark ")) {
+        } else if (matches(input, "unmark")) {
             return UNMARK;
-        } else if (input.equals("delete") || input.startsWith("delete ")) {
+        } else if (matches(input, "delete")) {
             return DELETE;
-        } else if (input.equals("deadline") || input.startsWith("deadline ")) {
+        } else if (matches(input, "deadline")) {
             return DEADLINE;
-        } else if (input.equals("event") || input.startsWith("event ")) {
+        } else if (matches(input, "event")) {
             return EVENT;
-        } else if (input.equals("todo") || input.startsWith("todo ")) {
+        } else if (matches(input, "todo")) {
             return TODO;
-        } else if (input.equals("on") || input.startsWith("on ")) {
+        } else if (matches(input, "on")) {
             return ON_DATE;
         } else if (input.isEmpty()) {
             return EMPTY;
         }
         return UNKNOWN;
+    }
+
+    /** Returns whether input is exactly a command or starts with the command followed by a space. */
+    private static boolean matches(String input, String command) {
+        return input.equals(command) || input.startsWith(command + " ");
     }
 }

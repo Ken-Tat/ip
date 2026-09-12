@@ -22,6 +22,7 @@ public class Storage {
 
     /** Creates storage backed by the supplied file. */
     public Storage(Path taskFile) {
+        assert taskFile != null : "Storage requires a path for its task file.";
         this.taskFile = taskFile;
     }
 
@@ -76,6 +77,7 @@ public class Storage {
     }
 
     private String formatTask(Task task) {
+        assert task != null : "Only real tasks can be serialized.";
         StringBuilder line = new StringBuilder(task.getTaskType().getMarker())
                 .append('|').append(task.getStatusIcon().equals("X") ? "1" : "0")
                 .append('|').append(encode(task.getDescription()));

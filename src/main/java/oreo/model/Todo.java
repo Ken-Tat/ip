@@ -20,9 +20,4 @@ public class Todo extends Task {
         return TaskType.TODO;
     }
 
-    /** Returns the formatted to-do task text. */
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

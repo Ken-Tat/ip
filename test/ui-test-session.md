@@ -1,6 +1,146 @@
 # UI test session
 
-## 1. Display command help
+## 1. Manage merchandise details
+
+**Aim:** Confirm that merchandise can be added, listed separately, searched, edited, and deleted without changing normal task listing or search behaviour.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Console input:**
+```text
+todo Sell house
+merchandise 1 4-room flat at Bishan
+list
+listall
+find house
+find-merchandise bishan
+edit-merchandise 1 Updated property details
+delete-merchandise 1
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] Sell house
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added merchandise to this task:
+[T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1. [T][ ] Sell house
+____________________________________________
+____________________________________________
+Here are all tasks and their merchandise:
+1. [T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Here are the matching tasks in your list:
+1. [T][ ] Sell house
+____________________________________________
+____________________________________________
+Here are the matching merchandise in your list:
+1. [T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Noted. I've updated merchandise for this task:
+[T][ ] Sell house
+   Merchandise: Updated property details
+____________________________________________
+____________________________________________
+Noted. I've removed merchandise from this task:
+[T][ ] Sell house
+   Merchandise: 
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] Sell house
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added merchandise to this task:
+[T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1. [T][ ] Sell house
+____________________________________________
+____________________________________________
+Here are all tasks and their merchandise:
+1. [T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Here are the matching tasks in your list:
+1. [T][ ] Sell house
+____________________________________________
+____________________________________________
+Here are the matching merchandise in your list:
+1. [T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Noted. I've updated merchandise for this task:
+[T][ ] Sell house
+   Merchandise: Updated property details
+____________________________________________
+____________________________________________
+Noted. I've removed merchandise from this task:
+[T][ ] Sell house
+   Merchandise: 
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+## 2. Display command help
 
 **Aim:** Confirm that `help` lists all supported commands and their usage.
 
@@ -36,6 +176,11 @@ Here are the commands you can use:
 - event DESCRIPTION /from START /to END: Adds an event.
 - find KEYWORD: Finds tasks by description.
 - on DATE: Lists tasks occurring on a date.
+- listall: Lists all tasks together with their merchandise.
+- merchandise TASK_NUMBER DETAILS: Adds merchandise to a task.
+- edit-merchandise TASK_NUMBER DETAILS: Edits merchandise for a task.
+- delete-merchandise TASK_NUMBER: Removes merchandise from a task.
+- find-merchandise KEYWORD: Finds merchandise by its details.
 - mark TASK_NUMBER: Marks a task as done.
 - unmark TASK_NUMBER: Marks a task as not done.
 - delete TASK_NUMBER: Deletes a task.
@@ -69,6 +214,11 @@ Here are the commands you can use:
 - event DESCRIPTION /from START /to END: Adds an event.
 - find KEYWORD: Finds tasks by description.
 - on DATE: Lists tasks occurring on a date.
+- listall: Lists all tasks together with their merchandise.
+- merchandise TASK_NUMBER DETAILS: Adds merchandise to a task.
+- edit-merchandise TASK_NUMBER DETAILS: Edits merchandise for a task.
+- delete-merchandise TASK_NUMBER: Removes merchandise from a task.
+- find-merchandise KEYWORD: Finds merchandise by its details.
 - mark TASK_NUMBER: Marks a task as done.
 - unmark TASK_NUMBER: Marks a task as not done.
 - delete TASK_NUMBER: Deletes a task.
@@ -85,7 +235,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 2. Find tasks by description keyword
+## 3. Find tasks by description keyword
 
 **Aim:** Confirm that `find KEYWORD` displays matching tasks in original order, ignores letter case, and reports no matches.
 
@@ -188,7 +338,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 3. Query tasks by date
+## 4. Query tasks by date
 
 **Aim:** Confirm that `on YYYY-MM-DD` finds deadlines and events on a date and handles an invalid date.
 
@@ -284,7 +434,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 4. Parse and format calendar dates and times
+## 5. Parse and format calendar dates and times
 
 **Aim:** Confirm that supported date inputs are stored as calendar values and displayed in a different human-readable format.
 
@@ -373,7 +523,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 5. Greeting and graceful exit
+## 6. Greeting and graceful exit
 
 **Aim:** Confirm that Oreo displays its greeting and exits with its goodbye message when the user enters `bye`.
 
@@ -429,7 +579,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 6. Recover from invalid commands without changing state
+## 7. Recover from invalid commands without changing state
 
 **Aim:** Confirm that an empty to-do description and an unknown command produce exception-based error messages, while valid tasks remain intact.
 
@@ -519,7 +669,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 7. Reject invalid task numbers without changing task state
+## 8. Reject invalid task numbers without changing task state
 
 **Aim:** Confirm that invalid task numbers, including an out-of-range delete command, are handled safely and leave the task list unchanged.
 
@@ -609,7 +759,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 8. Add and list every task subtype
+## 9. Add and list every task subtype
 
 **Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and that the `TaskType` enum preserves their existing display markers through the shared `Task` list.
 
@@ -711,7 +861,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 9. Mark and unmark a task
+## 10. Mark and unmark a task
 
 **Aim:** Confirm that marking a task as done and then unmarking it updates its status without changing the task description or list position.
 
@@ -805,7 +955,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 10. Load tasks saved by a previous run
+## 11. Load tasks saved by a previous run
 
 **Aim:** Confirm that a task saved in one run is loaded and listed when Oreo starts again.
 
@@ -870,7 +1020,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 11. Delete tasks and reject invalid delete numbers
+## 12. Delete tasks and reject invalid delete numbers
 
 **Aim:** Confirm that deletion removes the selected task and re-numbers the list, while missing, zero, out-of-range, and empty-list delete commands leave the list unchanged.
 
@@ -1014,4 +1164,4 @@ ____________________________________________
 
 **Result:** PASS
 
-All 11 test case(s) passed.
+All 12 test case(s) passed.

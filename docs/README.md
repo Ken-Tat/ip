@@ -20,11 +20,28 @@ Example: `keyword (optional arguments)`
 expected output
 ```
 
-## Feature ABC
+## Merchandise details
 
-// Feature details
+Each task can have one optional free-form merchandise detail. Merchandise is
+managed independently from the normal task commands.
 
+```text
+merchandise TASK_NUMBER DETAILS
+edit-merchandise TASK_NUMBER DETAILS
+delete-merchandise TASK_NUMBER
+find-merchandise KEYWORD
+listall
+```
 
-## Feature XYZ
+For example:
 
-// Feature details
+```text
+todo Sell house
+merchandise 1 4-room flat at Bishan, 2 bathrooms
+listall
+```
+
+The normal `list` and `find` commands continue to show and search task
+descriptions only. Merchandise is stored together with its parent task and is
+removed when that task is deleted.
+

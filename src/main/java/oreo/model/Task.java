@@ -8,6 +8,7 @@ package oreo.model;
 public abstract class Task {
     protected final String description;
     private TaskStatus status;
+    private String merchandise;
 
     /**
      * Creates an incomplete task with the given description.
@@ -17,6 +18,7 @@ public abstract class Task {
     protected Task(String description) {
         this.description = description;
         this.status = TaskStatus.TODO;
+        this.merchandise = "";
     }
 
     /**
@@ -29,6 +31,27 @@ public abstract class Task {
     /** Returns the task description for persistence and other collaborators. */
     public String getDescription() {
         return description;
+    }
+
+    /** Returns the optional merchandise detail attached to this task. */
+    public String getMerchandise() {
+        return merchandise;
+    }
+
+    /** Returns whether this task has a non-empty merchandise detail. */
+    public boolean hasMerchandise() {
+        return !merchandise.isEmpty();
+    }
+
+    /** Replaces the merchandise detail attached to this task. */
+    public void setMerchandise(String merchandise) {
+        assert merchandise != null : "Merchandise details must not be null.";
+        this.merchandise = merchandise;
+    }
+
+    /** Removes the merchandise detail attached to this task. */
+    public void clearMerchandise() {
+        merchandise = "";
     }
 
     /**

@@ -3,13 +3,18 @@ package oreo.core;
 import oreo.command.Command;
 import oreo.command.DeadlineCommand;
 import oreo.command.DeleteCommand;
+import oreo.command.DeleteMerchandiseCommand;
+import oreo.command.EditMerchandiseCommand;
 import oreo.command.EmptyCommand;
 import oreo.command.EventCommand;
 import oreo.command.ExitCommand;
 import oreo.command.FindCommand;
+import oreo.command.FindMerchandiseCommand;
 import oreo.command.HelpCommand;
+import oreo.command.ListAllCommand;
 import oreo.command.ListCommand;
 import oreo.command.MarkCommand;
+import oreo.command.MerchandiseCommand;
 import oreo.command.OnDateCommand;
 import oreo.command.TodoCommand;
 import oreo.command.UnknownCommand;
@@ -32,6 +37,14 @@ public class CommandFactory {
             case EVENT -> new EventCommand(parser.argument(input, "event"), parser);
             case TODO -> new TodoCommand(parser.argument(input, "todo"), parser);
             case ON_DATE -> new OnDateCommand(parser.argument(input, "on"), parser);
+            case MERCHANDISE -> new MerchandiseCommand(parser.argument(input, "merchandise"), parser);
+            case EDIT_MERCHANDISE -> new EditMerchandiseCommand(
+                    parser.argument(input, "edit-merchandise"), parser);
+            case DELETE_MERCHANDISE -> new DeleteMerchandiseCommand(
+                    parser.argument(input, "delete-merchandise"), parser);
+            case FIND_MERCHANDISE -> new FindMerchandiseCommand(
+                    parser.argument(input, "find-merchandise"), parser);
+            case LIST_ALL -> new ListAllCommand(parser);
             case EMPTY -> new EmptyCommand(parser);
             case UNKNOWN -> new UnknownCommand(parser);
         };

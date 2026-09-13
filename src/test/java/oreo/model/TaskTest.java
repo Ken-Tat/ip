@@ -27,6 +27,19 @@ class TaskTest {
     }
 
     @Test
+    void task_merchandise_canBeSetAndCleared() {
+        Todo task = new Todo("sell house");
+
+        assertFalse(task.hasMerchandise());
+        task.setMerchandise("4-room flat");
+        assertTrue(task.hasMerchandise());
+        assertEquals("4-room flat", task.getMerchandise());
+
+        task.clearMerchandise();
+        assertFalse(task.hasMerchandise());
+    }
+
+    @Test
     void deadline_occursOn_matchesOnlyItsCalendarDate() {
         Deadline deadline = new Deadline("return book", "2019-10-15");
 

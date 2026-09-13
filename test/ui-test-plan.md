@@ -15,6 +15,84 @@
 
 ## Test cases
 
+### Test: Manage merchandise details
+
+**Aim:** Confirm that merchandise can be added, listed separately, searched, edited, and deleted without changing normal task listing or search behaviour.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Input:**
+```text
+todo Sell house
+merchandise 1 4-room flat at Bishan
+list
+listall
+find house
+find-merchandise bishan
+edit-merchandise 1 Updated property details
+delete-merchandise 1
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] Sell house
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added merchandise to this task:
+[T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1. [T][ ] Sell house
+____________________________________________
+____________________________________________
+Here are all tasks and their merchandise:
+1. [T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Here are the matching tasks in your list:
+1. [T][ ] Sell house
+____________________________________________
+____________________________________________
+Here are the matching merchandise in your list:
+1. [T][ ] Sell house
+   Merchandise: 4-room flat at Bishan
+____________________________________________
+____________________________________________
+Noted. I've updated merchandise for this task:
+[T][ ] Sell house
+   Merchandise: Updated property details
+____________________________________________
+____________________________________________
+Noted. I've removed merchandise from this task:
+[T][ ] Sell house
+   Merchandise: 
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+```
+
 ### Test: Display command help
 
 **Aim:** Confirm that `help` lists all supported commands and their usage.
@@ -51,6 +129,11 @@ Here are the commands you can use:
 - event DESCRIPTION /from START /to END: Adds an event.
 - find KEYWORD: Finds tasks by description.
 - on DATE: Lists tasks occurring on a date.
+- listall: Lists all tasks together with their merchandise.
+- merchandise TASK_NUMBER DETAILS: Adds merchandise to a task.
+- edit-merchandise TASK_NUMBER DETAILS: Edits merchandise for a task.
+- delete-merchandise TASK_NUMBER: Removes merchandise from a task.
+- find-merchandise KEYWORD: Finds merchandise by its details.
 - mark TASK_NUMBER: Marks a task as done.
 - unmark TASK_NUMBER: Marks a task as not done.
 - delete TASK_NUMBER: Deletes a task.

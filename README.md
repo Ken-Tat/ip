@@ -72,6 +72,14 @@ shadowJar`.
 
 ## Acknowledgement of AI use 
 
+## Merchandise details
+
+Tasks can optionally store one free-form merchandise detail. Use
+`merchandise TASK_NUMBER DETAILS` to add it, `edit-merchandise` to replace it,
+`delete-merchandise` to remove it, `find-merchandise KEYWORD` to search it, and
+`listall` to display tasks with their merchandise. The existing `list` and
+`find` commands continue to operate on tasks only.
+
 ### Week 2 iP
 - ChatGPT/Codex was used mostly for the code in the submission following the wk 2 iP Increments as followed
 - Review was done and tested personally myself for the example test cases as well.

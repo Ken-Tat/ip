@@ -69,6 +69,16 @@ public class Parser {
         return command;
     }
 
+    /** Splits merchandise input into a task number and non-empty detail. */
+    public String[] merchandiseParts(String command, String usage) throws OreoException {
+        int separator = command.indexOf(' ');
+        if (separator <= 0 || separator + 1 >= command.length()
+                || command.substring(separator + 1).trim().isEmpty()) {
+            throw new OreoException(usage);
+        }
+        return new String[] {command.substring(0, separator), command.substring(separator + 1).trim()};
+    }
+
     /** Converts a one-based task number into a zero-based index. */
     public int taskIndex(String taskNumberText, int taskCount) throws OreoException {
         assert taskCount >= 0 : "A task list cannot have a negative size.";

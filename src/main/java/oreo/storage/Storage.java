@@ -84,6 +84,7 @@ public class Storage {
         } else if (task instanceof Event event) {
             line.append('|').append(encode(event.getFrom())).append('|').append(encode(event.getTo()));
         }
+        line.append('|').append(encode(task.getMerchandise()));
         return line.toString();
     }
 
@@ -95,17 +96,22 @@ public class Storage {
             }
             String description = decode(fields[2]);
             Task task;
-            if (fields[0].equals("T") && fields.length == 3) {
+            if (fields[0].equals("T") && (fields.length == 3 || fields.length == 4)) {
                 task = new Todo(description);
-            } else if (fields[0].equals("D") && fields.length == 4) {
+            } else if (fields[0].equals("D") && (fields.length == 4 || fields.length == 5)) {
                 task = new Deadline(description, decode(fields[3]));
-            } else if (fields[0].equals("E") && fields.length == 5) {
+            } else if (fields[0].equals("E") && (fields.length == 5 || fields.length == 6)) {
                 task = new Event(description, decode(fields[3]), decode(fields[4]));
             } else {
                 return null;
             }
             if (fields[1].equals("1")) {
                 task.markAsDone();
+            }
+            if ((task instanceof Todo && fields.length == 4)
+                    || (task instanceof Deadline && fields.length == 5)
+                    || (task instanceof Event && fields.length == 6)) {
+                task.setMerchandise(decode(fields[fields.length - 1]));
             }
             return task;
         } catch (IllegalArgumentException e) {

@@ -19,4 +19,16 @@ class TaskListTest {
         assertEquals("read book", matches.get(0).getDescription());
         assertEquals("return BOOK", matches.get(1).getDescription());
     }
+
+    @Test
+    void findMerchandise_searchesOnlyMerchandise() {
+        TaskList tasks = new TaskList();
+        Todo task = new Todo("bishan task");
+        task.setMerchandise("4-room flat");
+        tasks.add(task);
+        tasks.add(new Todo("stamp task"));
+
+        assertEquals(1, tasks.findMerchandise("FLAT").size());
+        assertEquals(0, tasks.findMerchandise("bishan").size());
+    }
 }

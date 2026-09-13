@@ -71,6 +71,15 @@ public class TaskList implements Iterable<Task> {
                 .toList());
     }
 
+    /** Finds tasks whose merchandise details contain the supplied keyword. */
+    public TaskList findMerchandise(String keyword) {
+        String searchText = keyword.toLowerCase(Locale.ROOT);
+        return new TaskList(tasks.stream()
+                .filter(task -> task.hasMerchandise()
+                        && task.getMerchandise().toLowerCase(Locale.ROOT).contains(searchText))
+                .toList());
+    }
+
     /** Returns an iterator over the tasks in list order. */
     @Override
     public Iterator<Task> iterator() {

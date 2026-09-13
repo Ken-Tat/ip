@@ -72,6 +72,25 @@ class ParserTest {
     }
 
     @Test
+    void merchandiseCommands_areRecognisedAndParsed() throws OreoException {
+        assertEquals(CommandType.MERCHANDISE, CommandType.fromInput("merchandise 1 flat"));
+        assertEquals(CommandType.EDIT_MERCHANDISE, CommandType.fromInput("edit-merchandise 1 flat"));
+        assertEquals(CommandType.DELETE_MERCHANDISE, CommandType.fromInput("delete-merchandise 1"));
+        assertEquals(CommandType.FIND_MERCHANDISE, CommandType.fromInput("find-merchandise flat"));
+        assertEquals(CommandType.LIST_ALL, CommandType.fromInput("listall"));
+        assertArrayEquals(new String[] {"1", "flat"},
+                parser.merchandiseParts("1 flat", "usage"));
+    }
+
+    @Test
+    void merchandiseParts_missingDetails_throwsUsageError() {
+        assertUsageError(() -> parser.merchandiseParts("1", "Use: merchandise TASK_NUMBER DETAILS"),
+                "Use: merchandise TASK_NUMBER DETAILS");
+        assertUsageError(() -> parser.merchandiseParts("", "Use: merchandise TASK_NUMBER DETAILS"),
+                "Use: merchandise TASK_NUMBER DETAILS");
+    }
+
+    @Test
     void helpCommand_isRecognised() {
         assertEquals(CommandType.HELP, CommandType.fromInput("help"));
     }

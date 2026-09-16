@@ -4,13 +4,18 @@ import oreo.core.AppContext;
 import oreo.core.OreoException;
 import oreo.core.Parser;
 import oreo.model.Task;
+
 /** Shared execution workflow for commands that add a task. */
 public abstract class AddTaskCommand extends Command {
     protected AddTaskCommand(Parser parser) {
         super(parser);
     }
 
-    /** Creates, stores, and displays the task produced by this command. */
+    /** Creates, stores, and displays the task produced by this command.
+     *
+     * @param context the application state and collaborators used by the command
+     * @throws OreoException if the command arguments are invalid
+     */
     @Override
     public final void execute(AppContext context) throws OreoException {
         Task task = createTask();

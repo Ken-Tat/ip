@@ -19,9 +19,17 @@ import oreo.command.OnDateCommand;
 import oreo.command.TodoCommand;
 import oreo.command.UnknownCommand;
 import oreo.command.UnmarkCommand;
+
 /** Creates executable commands from parsed command types and input. */
 public class CommandFactory {
-    /** Builds the command represented by the supplied input and command type. */
+    /** Builds the command represented by the supplied input and command type.
+     *
+     * @param type the parsed command type
+     * @param input the complete user input
+     * @param parser the parser used by the command
+     * @return the executable command
+     * @throws OreoException if the command arguments are invalid
+     */
     public Command create(CommandType type, String input, Parser parser) throws OreoException {
         assert type != null : "Command creation requires a classified command type.";
         assert input != null && parser != null : "Command creation requires input and a parser.";

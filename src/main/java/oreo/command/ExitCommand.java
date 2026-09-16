@@ -2,6 +2,7 @@ package oreo.command;
 
 import oreo.core.AppContext;
 import oreo.core.Parser;
+
 /** Command that displays the goodbye message and ends the application. */
 public class ExitCommand extends Command {
     /** Creates a command that exits the application. */

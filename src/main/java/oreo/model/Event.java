@@ -17,9 +17,9 @@ public class Event extends Task {
     /**
      * Creates an incomplete event task.
      *
-     * @param description The task description.
-     * @param from The event start text entered by the user.
-     * @param to The event end text entered by the user.
+     * @param description the task description
+     * @param from the event start text entered by the user
+     * @param to the event end text entered by the user
      */
     public Event(String description, String from, String to) {
         super(description);
@@ -35,12 +35,18 @@ public class Event extends Task {
         return TaskType.EVENT;
     }
 
-    /** Returns the event start text for persistence. */
+    /** Returns the event start text for persistence.
+     *
+     * @return the original event start text
+     */
     public String getFrom() {
         return fromText;
     }
 
-    /** Returns the event end text for persistence. */
+    /** Returns the event end text for persistence.
+     *
+     * @return the original event end text
+     */
     public String getTo() {
         return toText;
     }

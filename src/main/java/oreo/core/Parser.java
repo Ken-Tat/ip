@@ -1,6 +1,7 @@
 package oreo.core;
 
 import oreo.command.Command;
+
 /** Converts raw user input into executable commands. */
 public class Parser {
     private final CommandFactory commandFactory;
@@ -11,7 +12,12 @@ public class Parser {
         this.commandFactory = commandFactory;
     }
 
-    /** Parses complete input into an executable command object. */
+    /** Parses complete input into an executable command object.
+     *
+     * @param input the complete user input
+     * @return the executable command represented by the input
+     * @throws OreoException if the input cannot be converted into a command
+     */
     public Command parse(String input) throws OreoException {
         assert input != null : "The command loop must provide non-null input.";
         CommandType type = CommandType.fromInput(input);
@@ -20,7 +26,12 @@ public class Parser {
         return command;
     }
 
-    /** Returns the argument following a command keyword, or an empty string. */
+    /** Returns the argument following a command keyword, or an empty string.
+     *
+     * @param input the complete user input
+     * @param command the command keyword
+     * @return the trimmed argument, or an empty string when none is supplied
+     */
     public String argument(String input, String command) {
         assert input != null && command != null : "Command parsing requires non-null text.";
         assert input.equals(command) || input.startsWith(command + " ")
@@ -31,7 +42,12 @@ public class Parser {
         return input.substring(command.length() + 1).trim();
     }
 
-    /** Splits a deadline argument into description and due date. */
+    /** Splits a deadline argument into description and due date.
+     *
+     * @param command the deadline command argument
+     * @return the description and due date
+     * @throws OreoException if the argument is malformed
+     */
     public String[] deadlineParts(String command) throws OreoException {
         int marker = command.indexOf(" /by ");
         if (marker <= 0 || marker + 5 >= command.length()) {
@@ -45,7 +61,12 @@ public class Parser {
         return new String[] {description, by};
     }
 
-    /** Splits an event argument into description, start, and end values. */
+    /** Splits an event argument into description, start, and end values.
+     *
+     * @param command the event command argument
+     * @return the description, start, and end values
+     * @throws OreoException if the argument is malformed
+     */
     public String[] eventParts(String command) throws OreoException {
         int fromMarker = command.indexOf(" /from ");
         int toMarker = command.indexOf(" /to ");
@@ -61,7 +82,12 @@ public class Parser {
         return new String[] {description, from, to};
     }
 
-    /** Validates and returns a to-do description. */
+    /** Validates and returns a to-do description.
+     *
+     * @param command the to-do description
+     * @return the validated description
+     * @throws OreoException if the description is empty
+     */
     public String todoDescription(String command) throws OreoException {
         if (command.isEmpty()) {
             throw new OreoException("To do what task exactly?.");
@@ -69,7 +95,13 @@ public class Parser {
         return command;
     }
 
-    /** Splits merchandise input into a task number and non-empty detail. */
+    /** Splits merchandise input into a task number and non-empty detail.
+     *
+     * @param command the merchandise command argument
+     * @param usage the usage message to report for invalid input
+     * @return the task number and merchandise detail
+     * @throws OreoException if the argument is malformed
+     */
     public String[] merchandiseParts(String command, String usage) throws OreoException {
         int separator = command.indexOf(' ');
         if (separator <= 0 || separator + 1 >= command.length()
@@ -79,7 +111,13 @@ public class Parser {
         return new String[] {command.substring(0, separator), command.substring(separator + 1).trim()};
     }
 
-    /** Converts a one-based task number into a zero-based index. */
+    /** Converts a one-based task number into a zero-based index.
+     *
+     * @param taskNumberText the one-based task number
+     * @param taskCount the number of tasks available
+     * @return the corresponding zero-based index
+     * @throws OreoException if the task number is invalid or out of range
+     */
     public int taskIndex(String taskNumberText, int taskCount) throws OreoException {
         assert taskCount >= 0 : "A task list cannot have a negative size.";
         if (taskNumberText.isEmpty()) {

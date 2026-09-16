@@ -15,8 +15,8 @@ public class Deadline extends Task {
     /**
      * Creates an incomplete deadline task.
      *
-     * @param description The task description.
-     * @param by The deadline text entered by the user.
+     * @param description the task description
+     * @param by the deadline text entered by the user
      */
     public Deadline(String description, String by) {
         super(description);
@@ -30,12 +30,18 @@ public class Deadline extends Task {
         return TaskType.DEADLINE;
     }
 
-    /** Returns the deadline text for persistence. */
+    /** Returns the deadline text for persistence.
+     *
+     * @return the original deadline text
+     */
     public String getBy() {
         return byText;
     }
 
-    /** Returns the parsed deadline, or {@code null} for legacy free-form text. */
+    /** Returns the parsed deadline, or {@code null} for legacy free-form text.
+     *
+     * @return the parsed deadline date and time
+     */
     public LocalDateTime getByDateTime() {
         return byDateTime;
     }

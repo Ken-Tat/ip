@@ -13,6 +13,7 @@
 - Persistence failures are reported on stderr while the chatbot continues running, so UI output remains stable.
 - The existing end-to-end cases cover the greeting and goodbye messages now provided by the Ui class.
 - GUI-specific checks are performed manually because this plan validates the command-line interface.
+- The packaged JAR launches the JavaFX GUI directly; the CLI tests continue to invoke `oreo.Oreo` explicitly.
 
 ## Test cases
 

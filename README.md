@@ -66,8 +66,8 @@ dependencies into one executable JAR file.
    java -jar build/libs/oreo-all.jar
    ```
 
-The JAR is executable because its manifest names `oreo.Oreo` as the main
-class. On Windows, use `gradlew.bat shadowJar` instead of `./gradlew
+The JAR is executable because its manifest names `oreo.ui.Launcher` as the
+main class, so it opens the graphical interface directly. On Windows, use `gradlew.bat shadowJar` instead of `./gradlew
 shadowJar`.
 
 ## Acknowledgement of AI use 

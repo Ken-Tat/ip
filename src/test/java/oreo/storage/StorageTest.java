@@ -37,4 +37,19 @@ class StorageTest {
         Task loaded = new Storage(file).load().get(0);
         assertTrue(loaded.getMerchandise().isEmpty());
     }
+
+    @Test
+    void saveAndLoad_taskWithoutMerchandise_preservesTask() throws Exception {
+        Path directory = Files.createTempDirectory("oreo-storage-empty-merchandise-test");
+        Path file = directory.resolve("oreo.txt");
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("buy milk"));
+
+        Storage storage = new Storage(file);
+        storage.save(tasks);
+
+        Task loaded = storage.load().get(0);
+        assertEquals("buy milk", loaded.getDescription());
+        assertTrue(loaded.getMerchandise().isEmpty());
+    }
 }

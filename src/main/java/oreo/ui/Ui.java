@@ -11,7 +11,8 @@ import oreo.model.TaskList;
 
 /** Handles messages that greet the user and close the application. */
 public class Ui {
-    private static final String NAME = "Oreo";
+    /** The product name shown in user-facing messages and the GUI. */
+    public static final String PRODUCT_NAME = "Oreo";
     private static final String LINE = "____________________________________________";
     private final Scanner scanner;
 
@@ -44,7 +45,7 @@ public class Ui {
                 + "  OOO   R  RR  EEEEE  OOO  \n";
         System.out.println("____________________________________________ \n"
                 + banner + "\n"
-                + "Hello! I'm " + NAME + ". \n"
+                + "Hello! I'm " + PRODUCT_NAME + ". \n"
                 + "Let's get started shall we? \n"
                 + "____________________________________________");
     }

@@ -1069,7 +1069,8 @@ Hello! I'm Oreo.
 Let's get started shall we? 
 ____________________________________________
 ____________________________________________
-No tasks in the list.
+Here are the tasks in your list:
+1. [T][ ] buy milk
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -1080,23 +1081,150 @@ ____________________________________________
 
 **Exit status:** `0`
 
-**Result:** FAIL
+**Result:** PASS
 
-**Difference:**
-```diff
---- expected output
-+++ actual output
-@@ -9,8 +9,7 @@
- Let's get started shall we? 
- ____________________________________________
- ____________________________________________
--Here are the tasks in your list:
--1. [T][ ] buy milk
-+No tasks in the list.
- ____________________________________________
- ____________________________________________ 
- Good work. See you next time! 
+## 13. Delete tasks and reject invalid delete numbers
+
+**Aim:** Confirm that deletion removes the selected task and re-numbers the list, while missing, zero, out-of-range, and empty-list delete commands leave the list unchanged.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Console input:**
+```text
+todo read book
+todo return book
+delete 1
+list
+delete
+delete 0
+delete 2
+delete 1
+list
+delete 1
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] return book
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1. [T][ ] return book
+____________________________________________
+____________________________________________
+  Oh My God! Sooo which task is it?
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] return book
+Now you have 0 tasks in the list.
+____________________________________________
+____________________________________________
+No tasks in the list.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
 
 ```
 
-Testing stopped after this failed case.
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Got it. I've added this task:
+[T][ ] return book
+Now you have 2 tasks in the list.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+____________________________________________
+____________________________________________
+Here are the tasks in your list:
+1. [T][ ] return book
+____________________________________________
+____________________________________________
+  Oh My God! Sooo which task is it?
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________
+Noted. I've removed this task:
+  [T][ ] return book
+Now you have 0 tasks in the list.
+____________________________________________
+____________________________________________
+No tasks in the list.
+____________________________________________
+____________________________________________
+  Oh My God! I can't find that task number.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+All 13 test case(s) passed.

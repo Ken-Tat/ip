@@ -21,7 +21,7 @@ public class Main extends Application {
             stage.setScene(new Scene(root));
             stage.setMinHeight(220);
             stage.setMinWidth(417);
-            stage.setTitle("Oreo");
+            stage.setTitle(Ui.PRODUCT_NAME);
             stage.show();
         } catch (IOException e) {
             throw new IllegalStateException("Unable to load the Oreo GUI.", e);

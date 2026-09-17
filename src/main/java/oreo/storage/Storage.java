@@ -111,7 +111,10 @@ public class Storage {
             if ((task instanceof Todo && fields.length == 4)
                     || (task instanceof Deadline && fields.length == 5)
                     || (task instanceof Event && fields.length == 6)) {
-                task.setMerchandise(decode(fields[fields.length - 1]));
+                String merchandise = decode(fields[fields.length - 1]);
+                if (!merchandise.isEmpty()) {
+                    task.setMerchandise(merchandise);
+                }
             }
             return task;
         } catch (IllegalArgumentException e) {

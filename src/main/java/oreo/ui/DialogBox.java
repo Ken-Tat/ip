@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.beans.binding.Bindings;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -36,6 +37,9 @@ public class DialogBox extends HBox {
         displayPicture.setImage(image);
         messageContent.getStyleClass().add("message-content");
         HBox.setHgrow(messageContent, Priority.ALWAYS);
+        displayPicture.fitWidthProperty().bind(Bindings.createDoubleBinding(
+                () -> Math.max(64.0, Math.min(120.0, getWidth() * 0.12)), widthProperty()));
+        displayPicture.fitHeightProperty().bind(displayPicture.fitWidthProperty());
         speakerName.setManaged(false);
         speakerName.setVisible(false);
     }

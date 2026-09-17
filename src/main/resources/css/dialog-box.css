@@ -10,8 +10,15 @@
 .bot-name { -fx-text-fill: #0d47a1; }
 .user-name { -fx-text-fill: #0d47a1; -fx-alignment: center-right; }
 
-.user-message .message-content { -fx-alignment: TOP_RIGHT; }
-.bot-message .message-content { -fx-alignment: TOP_LEFT; }
+.user-message .message-content {
+    -fx-alignment: TOP_RIGHT;
+    -fx-padding: 0 6px 0 0;
+}
+
+.bot-message .message-content {
+    -fx-alignment: TOP_LEFT;
+    -fx-padding: 0 0 0 6px;
+}
 
 .user-label {
     -fx-background-color: #1976d2;

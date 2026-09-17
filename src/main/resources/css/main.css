@@ -1,4 +1,10 @@
-.root { -fx-background-color: #f5f7fb; -fx-font-family: "System"; }
+.root {
+    -fx-background-color: #0d47a1;
+    -fx-background-image: url("../images/background.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-font-family: "System";
+}
 
 
 .text-field {

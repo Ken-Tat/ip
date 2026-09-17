@@ -35,16 +35,35 @@ tasks for the next time you open the application.
 Oreo creates `data/oreo.txt` when it first needs to save a task. Keep this file
 with the application if you want your tasks to persist between launches.
 
-## Using this guide
-
-In the command formats below, words in `UPPER_CASE` are values that you supply.
-Square brackets indicate optional items. Task numbers are the numbers shown by
-`list`, starting from 1. Enter commands in lowercase, exactly as shown.
-
-Descriptions and merchandise details may contain spaces. For commands with a
-`/by`, `/from`, or `/to` prefix, include the spaces around the prefix.
-
 ## Features
+
+> **ℹ️ Notes about the command format**
+>
+> - Words in `UPPER_CASE` are values supplied by you. For example, replace
+>   `TASK_NUMBER` in `mark TASK_NUMBER` with a number such as `1`.
+> - Items in square brackets are optional. Oreo currently has no optional
+>   parameters in its command formats; square brackets are used here only as
+>   the standard notation for optional items.
+> - A description or merchandise detail can contain spaces, such as
+>   `todo buy a birthday present`.
+> - Commands and prefixes are lowercase and case-sensitive. Enter `deadline`,
+>   not `Deadline`; enter `/by`, `/from`, and `/to` exactly as shown.
+> - Parameter order matters. For example, an event must use
+>   `event DESCRIPTION /from START /to END`; `/to` cannot come before `/from`.
+> - Task numbers are one-based and refer to the current numbered list. After a
+>   deletion, use `list` again because the remaining tasks are re-numbered.
+> - Commands that do not take parameters, such as `help`, `list`, `listall`,
+>   and `bye`, ignore extra text after the command. For example, `help 123` is
+>   treated as `help`.
+> - `find` and `find-merchandise` search without regard to letter case. They
+>   look for a keyword within the relevant text, rather than requiring an exact
+>   match.
+> - Use `yyyy-MM-dd` for the `on` command, for example `on 2026-10-15`.
+>   Recognised deadline and event date-times may also use `d/M/yyyy HHmm`, for
+>   example `15/10/2026 1800`.
+> - Tasks are saved after successful additions, status changes, deletions, and
+>   merchandise updates. Keep `data/oreo.txt` with the application to retain
+>   your data.
 
 ### Getting help
 

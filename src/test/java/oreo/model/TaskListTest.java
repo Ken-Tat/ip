@@ -1,11 +1,23 @@
 package oreo.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
 /** Tests task collection operations used by the application. */
 class TaskListTest {
+    @Test
+    void add_duplicateTask_throwsValidationError() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("same task"));
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> tasks.add(new Todo("same task")));
+
+        assertEquals("A task with the same details already exists.", exception.getMessage());
+    }
+
     @Test
     void find_matchesDescriptionCaseInsensitivelyAndPreservesOrder() {
         TaskList tasks = new TaskList();

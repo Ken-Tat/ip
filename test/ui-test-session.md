@@ -434,7 +434,70 @@ ____________________________________________
 
 **Result:** PASS
 
-## 5. Parse and format calendar dates and times
+## 5. Reject an inverted event range
+
+**Aim:** Confirm that an event whose start is not before its end is rejected without being added.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Console input:**
+```text
+event meeting /from 2019-10-16 /to 2019-10-15
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+  Oh My God! The event start must be before its end.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Actual output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+  Oh My God! The event start must be before its end.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+
+```
+
+**Exit status:** `0`
+
+**Result:** PASS
+
+## 6. Parse and format calendar dates and times
 
 **Aim:** Confirm that supported date inputs are stored as calendar values and displayed in a different human-readable format.
 
@@ -523,7 +586,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 6. Greeting and graceful exit
+## 7. Greeting and graceful exit
 
 **Aim:** Confirm that Oreo displays its greeting and exits with its goodbye message when the user enters `bye`.
 
@@ -579,7 +642,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 7. Recover from invalid commands without changing state
+## 8. Recover from invalid commands without changing state
 
 **Aim:** Confirm that an empty to-do description and an unknown command produce exception-based error messages, while valid tasks remain intact.
 
@@ -669,7 +732,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 8. Reject invalid task numbers without changing task state
+## 9. Reject invalid task numbers without changing task state
 
 **Aim:** Confirm that invalid task numbers, including an out-of-range delete command, are handled safely and leave the task list unchanged.
 
@@ -759,7 +822,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 9. Add and list every task subtype
+## 10. Add and list every task subtype
 
 **Aim:** Confirm that the `Todo`, `Deadline`, and `Event` subclasses retain their type-specific details and that the `TaskType` enum preserves their existing display markers through the shared `Task` list.
 
@@ -861,7 +924,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 10. Mark and unmark a task
+## 11. Mark and unmark a task
 
 **Aim:** Confirm that marking a task as done and then unmarking it updates its status without changing the task description or list position.
 
@@ -955,7 +1018,7 @@ ____________________________________________
 
 **Result:** PASS
 
-## 11. Load tasks saved by a previous run
+## 12. Load tasks saved by a previous run
 
 **Aim:** Confirm that a task saved in one run is loaded and listed when Oreo starts again.
 
@@ -1006,8 +1069,7 @@ Hello! I'm Oreo.
 Let's get started shall we? 
 ____________________________________________
 ____________________________________________
-Here are the tasks in your list:
-1. [T][ ] buy milk
+No tasks in the list.
 ____________________________________________
 ____________________________________________ 
 Good work. See you next time! 
@@ -1018,150 +1080,23 @@ ____________________________________________
 
 **Exit status:** `0`
 
-**Result:** PASS
+**Result:** FAIL
 
-## 12. Delete tasks and reject invalid delete numbers
-
-**Aim:** Confirm that deletion removes the selected task and re-numbers the list, while missing, zero, out-of-range, and empty-list delete commands leave the list unchanged.
-
-**Command:**
-```sh
-rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
-```
-
-**Console input:**
-```text
-todo read book
-todo return book
-delete 1
-list
-delete
-delete 0
-delete 2
-delete 1
-list
-delete 1
-bye
-```
-
-**Expected output:**
-```text
-____________________________________________ 
-  OOO   RRRR   EEEEE  OOO  
- O   O  R   R  E     O   O 
- O   O  RRRR   EEEE  O   O 
- O   O  R R    E     O   O 
-  OOO   R  RR  EEEEE  OOO  
-
-Hello! I'm Oreo. 
-Let's get started shall we? 
-____________________________________________
-____________________________________________
-Got it. I've added this task:
-[T][ ] read book
-Now you have 1 tasks in the list.
-____________________________________________
-____________________________________________
-Got it. I've added this task:
-[T][ ] return book
-Now you have 2 tasks in the list.
-____________________________________________
-____________________________________________
-Noted. I've removed this task:
-  [T][ ] read book
-Now you have 1 tasks in the list.
-____________________________________________
-____________________________________________
-Here are the tasks in your list:
-1. [T][ ] return book
-____________________________________________
-____________________________________________
-  Oh My God! Sooo which task is it?
-____________________________________________
-____________________________________________
-  Oh My God! I can't find that task number.
-____________________________________________
-____________________________________________
-  Oh My God! I can't find that task number.
-____________________________________________
-____________________________________________
-Noted. I've removed this task:
-  [T][ ] return book
-Now you have 0 tasks in the list.
-____________________________________________
-____________________________________________
-No tasks in the list.
-____________________________________________
-____________________________________________
-  Oh My God! I can't find that task number.
-____________________________________________
-____________________________________________ 
-Good work. See you next time! 
-____________________________________________ 
-
+**Difference:**
+```diff
+--- expected output
++++ actual output
+@@ -9,8 +9,7 @@
+ Let's get started shall we? 
+ ____________________________________________
+ ____________________________________________
+-Here are the tasks in your list:
+-1. [T][ ] buy milk
++No tasks in the list.
+ ____________________________________________
+ ____________________________________________ 
+ Good work. See you next time! 
 
 ```
 
-**Actual output:**
-```text
-____________________________________________ 
-  OOO   RRRR   EEEEE  OOO  
- O   O  R   R  E     O   O 
- O   O  RRRR   EEEE  O   O 
- O   O  R R    E     O   O 
-  OOO   R  RR  EEEEE  OOO  
-
-Hello! I'm Oreo. 
-Let's get started shall we? 
-____________________________________________
-____________________________________________
-Got it. I've added this task:
-[T][ ] read book
-Now you have 1 tasks in the list.
-____________________________________________
-____________________________________________
-Got it. I've added this task:
-[T][ ] return book
-Now you have 2 tasks in the list.
-____________________________________________
-____________________________________________
-Noted. I've removed this task:
-  [T][ ] read book
-Now you have 1 tasks in the list.
-____________________________________________
-____________________________________________
-Here are the tasks in your list:
-1. [T][ ] return book
-____________________________________________
-____________________________________________
-  Oh My God! Sooo which task is it?
-____________________________________________
-____________________________________________
-  Oh My God! I can't find that task number.
-____________________________________________
-____________________________________________
-  Oh My God! I can't find that task number.
-____________________________________________
-____________________________________________
-Noted. I've removed this task:
-  [T][ ] return book
-Now you have 0 tasks in the list.
-____________________________________________
-____________________________________________
-No tasks in the list.
-____________________________________________
-____________________________________________
-  Oh My God! I can't find that task number.
-____________________________________________
-____________________________________________ 
-Good work. See you next time! 
-____________________________________________ 
-
-
-```
-
-**Exit status:** `0`
-
-**Result:** PASS
-
-All 12 test case(s) passed.
+Testing stopped after this failed case.

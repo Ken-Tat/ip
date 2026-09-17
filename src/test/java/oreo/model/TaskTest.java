@@ -2,6 +2,7 @@ package oreo.model;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
@@ -11,6 +12,33 @@ import org.junit.jupiter.api.Test;
 
 /** Tests task state changes, date matching, and task-list mutations. */
 class TaskTest {
+    @Test
+    void todo_emptyDescription_throwsValidationError() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> new Todo("  "));
+
+        assertEquals("Task description cannot be empty.", exception.getMessage());
+    }
+
+    @Test
+    void event_nonIncreasingRange_throwsValidationError() {
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> new Event("meeting", "2019-10-16", "2019-10-15"));
+
+        assertEquals("The event start must be before its end.", exception.getMessage());
+    }
+
+    @Test
+    void merchandise_blankDetails_throwsValidationError() {
+        Todo task = new Todo("sell house");
+
+        IllegalArgumentException exception = assertThrows(
+                IllegalArgumentException.class, () -> task.setMerchandise(" "));
+
+        assertEquals("Merchandise details cannot be empty.", exception.getMessage());
+    }
+
     @Test
     void task_markAndUnmark_updatesStatusIconAndDisplay() {
         Todo task = new Todo("buy milk");

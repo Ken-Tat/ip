@@ -19,7 +19,9 @@ public class Parser {
      * @throws OreoException if the input cannot be converted into a command
      */
     public Command parse(String input) throws OreoException {
-        assert input != null : "The command loop must provide non-null input.";
+        if (input == null) {
+            throw new OreoException("Please enter a command.");
+        }
         CommandType type = CommandType.fromInput(input);
         Command command = commandFactory.create(type, input, this);
         assert command != null : "Every command type must produce a command.";
@@ -33,7 +35,9 @@ public class Parser {
      * @return the trimmed argument, or an empty string when none is supplied
      */
     public String argument(String input, String command) {
-        assert input != null && command != null : "Command parsing requires non-null text.";
+        if (input == null || command == null) {
+            throw new IllegalArgumentException("Command parsing requires non-null text.");
+        }
         assert input.equals(command) || input.startsWith(command + " ")
                 : "The input must begin with the command keyword.";
         if (input.length() == command.length()) {

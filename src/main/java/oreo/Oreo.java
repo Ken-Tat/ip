@@ -22,6 +22,7 @@ public class Oreo {
     private final Ui ui;
     private final TaskList tasks;
     private final AppContext context;
+    private boolean wasLastCommandError;
 
     /** Creates an Oreo application using the default task file. */
     public Oreo() {
@@ -45,18 +46,25 @@ public class Oreo {
     public String processCommand(String input) {
         ByteArrayOutputStream response = new ByteArrayOutputStream();
         PrintStream previous = System.out;
+        wasLastCommandError = false;
         try {
             System.setOut(new PrintStream(response));
             try {
                 Command command = parser.parse(input.trim());
                 command.execute(context);
             } catch (OreoException e) {
+                wasLastCommandError = true;
                 ui.showError(e.getMessage());
             }
         } finally {
             System.setOut(previous);
         }
         return response.toString().stripTrailing();
+    }
+
+    /** Returns whether the most recently processed command produced an input error. */
+    public boolean wasLastCommandError() {
+        return wasLastCommandError;
     }
 
     /** Runs the command loop until an exit command is received. */

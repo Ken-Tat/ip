@@ -1,18 +1,20 @@
-.label {
-    background:white;
-    -fx-background-color: background;
-    -fx-border-color: black;
-    -fx-border-width: 2px;
-    -fx-background-radius: 1em 1em 0 1em;
-    -fx-border-radius: 1em 1em 0 1em;
-    -fx-text-fill: ladder(background, white 49%, black 50%);
+.user-message, .bot-message { -fx-alignment: TOP_LEFT; }
+.user-message { -fx-alignment: TOP_RIGHT; }
+
+.label { -fx-font-size: 13px; -fx-text-fill: #202634; -fx-wrap-text: true; }
+
+.user-label {
+    -fx-background-color: #dce4ff;
+    -fx-background-radius: 12px 12px 2px 12px;
+    -fx-padding: 7px 10px;
 }
 
 
-.reply-label {
-    -fx-background-radius: 1em 1em 1em 0;
-    -fx-border-radius: 1em 1em 1em 0;
-}
+.reply-label { -fx-background-color: white; -fx-background-radius: 12px 12px 12px 2px;
+    -fx-border-color: #e1e5ec; -fx-border-radius: 12px 12px 12px 2px; -fx-border-width: 1px;
+    -fx-padding: 8px 10px; }
+
+.error-label { -fx-background-color: #fff0f0; -fx-border-color: #d9534f; -fx-text-fill: #8f2525; }
 
 .add-label {
     -fx-background-color: yellow;
@@ -29,12 +31,7 @@
 
 #displayPicture {
     /* Shadow effect on image. */
-    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0.5, 5, 5);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.16), 3, 0.2, 0, 1);
 
     /* Change size of image. */
-    -fx-scale-x: 1;
-    -fx-scale-y: 1;
-
-    /* Rotate image clockwise by degrees. */
-    -fx-rotate: 0;
 }

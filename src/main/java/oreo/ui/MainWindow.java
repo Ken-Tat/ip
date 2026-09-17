@@ -39,8 +39,12 @@ public class MainWindow extends AnchorPane {
         if (input.isEmpty()) {
             return;
         }
-        dialogContainer.getChildren().addAll(DialogBox.user(input, userImage),
-                DialogBox.reply(oreo.processCommand(input), oreoImage));
+        String response = oreo.processCommand(input);
+        DialogBox reply = DialogBox.reply(response, oreoImage);
+        if (oreo.wasLastCommandError()) {
+            reply.markAsError();
+        }
+        dialogContainer.getChildren().addAll(DialogBox.user(input, userImage), reply);
         userInput.clear();
     }
 }

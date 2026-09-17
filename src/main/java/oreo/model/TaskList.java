@@ -27,7 +27,12 @@ public class TaskList implements Iterable<Task> {
 
     /** Adds a task to the list. */
     public void add(Task task) {
-        assert task != null : "The task list must not contain null tasks.";
+        if (task == null) {
+            throw new IllegalArgumentException("The task list must not contain null tasks.");
+        }
+        if (tasks.stream().anyMatch(existing -> existing.toString().equals(task.toString()))) {
+            throw new IllegalArgumentException("A task with the same details already exists.");
+        }
         tasks.add(task);
     }
 
@@ -38,7 +43,9 @@ public class TaskList implements Iterable<Task> {
 
     /** Returns the task at the zero-based index. */
     public Task get(int index) {
-        assert index >= 0 && index < tasks.size() : "The requested task index must be valid.";
+        if (index < 0 || index >= tasks.size()) {
+            throw new IndexOutOfBoundsException("The requested task index is not valid.");
+        }
         return tasks.get(index);
     }
 

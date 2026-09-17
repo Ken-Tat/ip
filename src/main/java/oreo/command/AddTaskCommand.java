@@ -18,8 +18,13 @@ public abstract class AddTaskCommand extends Command {
      */
     @Override
     public final void execute(AppContext context) throws OreoException {
-        Task task = createTask();
-        context.getTasks().add(task);
+        final Task task;
+        try {
+            task = createTask();
+            context.getTasks().add(task);
+        } catch (IllegalArgumentException e) {
+            throw new OreoException(e.getMessage());
+        }
         context.getStorage().save(context.getTasks());
         context.getUi().showAdded(task, context.getTasks().size());
     }

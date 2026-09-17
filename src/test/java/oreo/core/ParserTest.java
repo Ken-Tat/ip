@@ -72,6 +72,11 @@ class ParserTest {
     }
 
     @Test
+    void parse_nullInput_throwsUserFacingError() {
+        assertUsageError(() -> parser.parse(null), "Please enter a command.");
+    }
+
+    @Test
     void merchandiseCommands_areRecognisedAndParsed() throws OreoException {
         assertEquals(CommandType.MERCHANDISE, CommandType.fromInput("merchandise 1 flat"));
         assertEquals(CommandType.EDIT_MERCHANDISE, CommandType.fromInput("edit-merchandise 1 flat"));

@@ -16,6 +16,9 @@ public abstract class Task {
      * @param description the task description
      */
     protected Task(String description) {
+        if (description == null || description.isBlank()) {
+            throw new IllegalArgumentException("Task description cannot be empty.");
+        }
         this.description = description;
         this.status = TaskStatus.TODO;
         this.merchandise = "";
@@ -45,7 +48,9 @@ public abstract class Task {
 
     /** Replaces the merchandise detail attached to this task. */
     public void setMerchandise(String merchandise) {
-        assert merchandise != null : "Merchandise details must not be null.";
+        if (merchandise == null || merchandise.isBlank()) {
+            throw new IllegalArgumentException("Merchandise details cannot be empty.");
+        }
         this.merchandise = merchandise;
     }
 

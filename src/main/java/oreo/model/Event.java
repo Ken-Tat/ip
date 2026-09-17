@@ -25,6 +25,9 @@ public class Event extends Task {
         super(description);
         this.fromDateTime = DateTimeParser.parse(from);
         this.toDateTime = DateTimeParser.parse(to);
+        if (fromDateTime != null && toDateTime != null && !fromDateTime.isBefore(toDateTime)) {
+            throw new IllegalArgumentException("The event start must be before its end.");
+        }
         this.fromText = from;
         this.toText = to;
     }

@@ -257,6 +257,42 @@ ____________________________________________
 
 ```
 
+### Test: Reject an inverted event range
+
+**Aim:** Confirm that an event whose start is not before its end is rejected without being added.
+
+**Command:**
+```sh
+rm -f data/oreo.txt && javac -d /tmp/oreo-ui-test-classes $(find src/main/java -name '*.java') && java -cp /tmp/oreo-ui-test-classes oreo.Oreo
+```
+
+**Input:**
+```text
+event meeting /from 2019-10-16 /to 2019-10-15
+bye
+```
+
+**Expected output:**
+```text
+____________________________________________ 
+  OOO   RRRR   EEEEE  OOO  
+ O   O  R   R  E     O   O 
+ O   O  RRRR   EEEE  O   O 
+ O   O  R R    E     O   O 
+  OOO   R  RR  EEEEE  OOO  
+
+Hello! I'm Oreo. 
+Let's get started shall we? 
+____________________________________________
+____________________________________________
+  Oh My God! The event start must be before its end.
+____________________________________________
+____________________________________________ 
+Good work. See you next time! 
+____________________________________________ 
+
+```
+
 ### Test: Parse and format calendar dates and times
 
 **Aim:** Confirm that supported date inputs are stored as calendar values and displayed in a different human-readable format.
